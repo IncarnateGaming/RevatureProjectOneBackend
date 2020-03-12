@@ -57,7 +57,7 @@ CREATE OR REPLACE PROCEDURE create_reimbursment_type(
 IS
 BEGIN
   SELECT MIN(reimb_type_id) INTO rei_id FROM ERS_REIMBURSEMENT_TYPE WHERE ERS_REIMBURSEMENT_TYPE.reimb_type = rei_type; 
-  IF rei_type > 0
+  IF rei_id > 0
   THEN
    DBMS_OUTPUT.PUT_LINE(rei_type);
   ELSE
@@ -186,17 +186,39 @@ BEGIN
 END;
 /
 
---ALTER TABLE ACCOUNT 
---  ADD CONSTRAINT ac_account_type
---    FOREIGN KEY (ACCOUNT_TYPE)
---    REFERENCES ACCOUNT_TYPE (account_type_id)
---    ON DELETE SET NULL
---;
+ALTER TABLE ERS_USERS 
+  ADD CONSTRAINT ers_usr_role
+    FOREIGN KEY (user_role_id)
+    REFERENCES ERS_USER_ROLES (ers_user_role_id)
+    ON DELETE SET NULL
+;
+ALTER TABLE ERS_REIMBURSEMENT 
+  ADD CONSTRAINT ers_rei_status_id
+    FOREIGN KEY (reimb_status_id)
+    REFERENCES ERS_REIMBURSMENT_STATUS (reimb_status_id)
+    ON DELETE SET NULL
+;
+ALTER TABLE ERS_REIMBURSEMENT 
+  ADD CONSTRAINT ers_rei_type_id
+    FOREIGN KEY (reimb_type_id)
+    REFERENCES ERS_REIMBURSEMENT_TYPE (reimb_type_id)
+    ON DELETE SET NULL
+;
 
 DECLARE
   c int;
 BEGIN
---  create_rank(c,'Customer');
+  create_reimbursment_status(c,'Pending');
+  create_reimbursment_status(c,'Approved');
+  create_reimbursment_status(c,'Denied');
+  create_reimbursment_type(c,'Equipment');
+  create_reimbursment_type(c,'Food');
+  create_reimbursment_type(c,'Lodging');
+  create_reimbursment_type(c,'Other');
+  create_reimbursment_type(c,'Training');
+  create_reimbursment_type(c,'Travel');
+  create_ers_user_role(c,'Employee');
+  create_ers_user_role(c,'Admin');
   COMMIT;
 END;
 /
