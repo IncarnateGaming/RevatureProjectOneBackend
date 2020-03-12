@@ -5,22 +5,61 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.revature.expenses.dao.implementations.ReimbursmentDAOImpl;
+import com.revature.expenses.dao.implementations.ReimbursmentStatusDAOImpl;
+import com.revature.expenses.dao.implementations.ReimbursmentTypeDAOImpl;
+import com.revature.expenses.dao.implementations.UserDAOImpl;
+import com.revature.expenses.dao.implementations.UserRoleDAOImpl;
+import com.revature.expenses.dao.interfaces.ReimbursmentDAO;
+import com.revature.expenses.dao.interfaces.ReimbursmentStatusDAO;
+import com.revature.expenses.dao.interfaces.ReimbursmentTypeDAO;
+import com.revature.expenses.dao.interfaces.UserDAO;
+import com.revature.expenses.dao.interfaces.UserRoleDAO;
+
 //import com.revature.expenses.services.helpers.LoggerSingleton;
 
 public class DAOUtilities {
-	private static final String CONNECTION_USERNAME = System.getenv("REV_BANK_USR");
-	private static final String CONNECTION_PASSWORD = System.getenv("REV_BANK_CONN");
-	private static final String URL = System.getenv("REV_BANK_URL");
+	private static final String CONNECTION_USERNAME = System.getenv("REV_ERS_CONN_USR");
+	private static final String CONNECTION_PASSWORD = System.getenv("REV_ERS_CONN_PASS");
+	private static final String URL = System.getenv("REV_ERS_URL");
 	
-//	private static AccountDAOImpl accountDAOImpl;
+	private static ReimbursmentDAO reimbursmentDao;
+	private static ReimbursmentStatusDAO reimbursmentStatusDao;
+	private static ReimbursmentTypeDAO reimbursmentTypeDao;
+	private static UserDAO userDao;
+	private static UserRoleDAO userRoleDao;
 	private static Connection connection;
-//	
-//	public static synchronized AccountDAOImpl getAccountDao() {
-//		if(accountDAOImpl == null) {
-//			accountDAOImpl = new AccountDAOImpl();
-//		}
-//		return accountDAOImpl;
-//	}
+
+	public static ReimbursmentDAO getReimbursmentDao() {
+		if(reimbursmentDao == null) {
+			reimbursmentDao = new ReimbursmentDAOImpl();
+		}
+		return reimbursmentDao;
+	}
+	public static ReimbursmentStatusDAO getReimbursmentStatusDao() {
+		if(reimbursmentStatusDao == null) {
+			reimbursmentStatusDao = new ReimbursmentStatusDAOImpl();
+		}
+		return reimbursmentStatusDao;
+	}
+	public static ReimbursmentTypeDAO getReimbursmentTypeDao() {
+		if(reimbursmentTypeDao == null) {
+			reimbursmentTypeDao = new ReimbursmentTypeDAOImpl();
+		}
+		return reimbursmentTypeDao;
+	}
+	public static UserDAO getUserDao() {
+		if(userDao == null) {
+			userDao = new UserDAOImpl();
+		}
+		return userDao;
+	}
+	public static UserRoleDAO getUserRoleDao() {
+		if(userRoleDao == null) {
+			userRoleDao = new UserRoleDAOImpl();
+		}
+		return userRoleDao;
+	}
 	public static synchronized Connection getConnection() throws SQLException {
 		try {
 			if(CONNECTION_PASSWORD == null) {

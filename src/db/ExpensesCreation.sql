@@ -14,7 +14,7 @@ CREATE TABLE ERS_REIMBURSMENT_STATUS (
   reimb_status VARCHAR2(10)
 );
 
-CREATE OR REPLACE PROCEDURE create_reimbursment_status(
+CREATE OR REPLACE PROCEDURE create_ers_reimbursment_status(
   rei_id OUT NUMBER, 
   rei_status IN VARCHAR2
 )
@@ -50,7 +50,7 @@ CREATE TABLE ERS_REIMBURSEMENT_TYPE (
   reimb_type VARCHAR2(10)
 );
 
-CREATE OR REPLACE PROCEDURE create_reimbursment_type(
+CREATE OR REPLACE PROCEDURE create_ers_reimbursment_type(
   rei_id OUT NUMBER, 
   rei_type IN VARCHAR2
 )
@@ -156,14 +156,14 @@ END;
 
 CREATE TABLE ERS_REIMBURSEMENT (
   reimb_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  reimb_amount NUMBER,
-  reimb_submitted TIMESTAMP,
+  reimb_amount NUMBER NOT NULL,
+  reimb_submitted TIMESTAMP NOT NULL,
   reimb_resolved TIMESTAMP,
   reimb_description VARCHAR2(250),
   reimb_receipt BLOB,
-  reimb_author NUMBER,
+  reimb_author NUMBER NOT NULL,
   reimb_resolver NUMBER,
-  reimb_status_id NUMBER,
+  reimb_status_id NUMBER NOT NULL,
   reimb_type_id NUMBER
 );
 
@@ -204,6 +204,18 @@ ALTER TABLE ERS_REIMBURSEMENT
     REFERENCES ERS_REIMBURSEMENT_TYPE (reimb_type_id)
     ON DELETE SET NULL
 ;
+ALTER TABLE ERS_REIMBURSEMENT 
+  ADD CONSTRAINT ers_rei_author
+    FOREIGN KEY (reimb_author)
+    REFERENCES ERS_USERS (ers_users_id)
+    ON DELETE SET NULL
+;
+ALTER TABLE ERS_REIMBURSEMENT 
+  ADD CONSTRAINT ers_rei_resolver
+    FOREIGN KEY (reimb_resolver)
+    REFERENCES ERS_USERS (ers_users_id)
+    ON DELETE SET NULL
+;
 
 DECLARE
   c int;
@@ -232,8 +244,8 @@ BEGIN
    THEN
     EXECUTE IMMEDIATE 'GRANT CREATE SESSION TO exp_connection';
     EXECUTE IMMEDIATE 'GRANT CREATE PROCEDURE TO exp_connection';
-    EXECUTE IMMEDIATE 'GRANT EXECUTE ON create_reimbursment_status TO exp_connection';
-    EXECUTE IMMEDIATE 'GRANT EXECUTE ON create_reimbursment_type TO exp_connection';
+    EXECUTE IMMEDIATE 'GRANT EXECUTE ON create_ers_reimbursment_status TO exp_connection';
+    EXECUTE IMMEDIATE 'GRANT EXECUTE ON create_ers_reimbursment_type TO exp_connection';
     EXECUTE IMMEDIATE 'GRANT EXECUTE ON create_ers_user_role TO exp_connection';
     EXECUTE IMMEDIATE 'GRANT EXECUTE ON create_ers_user TO exp_connection';
     EXECUTE IMMEDIATE 'GRANT EXECUTE ON create_ers_reimbursement TO exp_connection';

@@ -8,6 +8,12 @@
 	  <maven.compiler.source>1.8</maven.compiler.source>
   </properties>
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/org.webjars.bower/angular -->
+	<dependency>
+		<groupId>org.webjars.bower</groupId>
+		<artifactId>angular</artifactId>
+		<version>1.7.9</version>
+	</dependency>
   	<!-- https://logging.apache.org/log4j/2.x/maven-artifacts.html -->
 	  <dependency>
 		<groupId>org.apache.logging.log4j</groupId>
