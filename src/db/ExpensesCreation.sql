@@ -83,7 +83,7 @@ END;
 
 CREATE TABLE ERS_USER_ROLES (
   ers_user_role_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  user_role VARCHAR2(10)
+    user_role VARCHAR2(10)
 );
 
 CREATE OR REPLACE PROCEDURE create_ers_user_role(

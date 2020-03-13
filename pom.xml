@@ -33,5 +33,11 @@
 		<artifactId>ojdbc8</artifactId>
 		<version>12.2.0.1</version>
 	</dependency>
+	<!-- https://github.com/wg/scrypt -->
+	  <dependency>
+		<groupId>com.lambdaworks</groupId>
+		<artifactId>scrypt</artifactId>
+		<version>1.4.0</version>
+	  </dependency>
   </dependencies>
 </project>
