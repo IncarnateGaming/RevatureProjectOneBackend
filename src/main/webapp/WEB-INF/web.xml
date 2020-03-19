@@ -10,11 +10,11 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-  	<servlet-name>Application</servlet-name>
-  	<servlet-class>com.revature.expenses.Application</servlet-class>
+  	<servlet-name>front-controller</servlet-name>
+  	<servlet-class>com.revature.expenses.api.FrontController</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>Application</servlet-name>
+  	<servlet-name>front-controller</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
 </web-app>

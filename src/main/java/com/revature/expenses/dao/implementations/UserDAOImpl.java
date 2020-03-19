@@ -41,6 +41,7 @@ public class UserDAOImpl implements UserDAO {
 			}
 			DAOUtilities.commit(conn);
 		}catch(SQLException e) {
+			e.printStackTrace();
 //			LoggerSingleton.getLogger().warn("Failed to create account",e);
 		}
 		return result;
@@ -60,6 +61,7 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 		}catch(SQLException e) {
+			e.printStackTrace();
 //			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
 		}
 		return list;
@@ -80,7 +82,28 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 		}catch(SQLException e) {
+			e.printStackTrace();
 //			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+		}
+		return result;
+	}
+
+	@Override
+	public User get(String username) {
+		User result = null;
+		try (Connection conn = DAOUtilities.getConnection()){
+			String sql = "SELECT * FROM ADMIN.ERS_USERS WHERE ers_username = ?";
+			try(PreparedStatement stmt = conn.prepareStatement(sql)){
+				stmt.setString(1, username);
+				try(ResultSet rs = stmt.executeQuery()){
+					while(rs.next()) {
+						result = objectBuilder(rs);
+					}
+				}
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+//			LoggerSingleton.getLogger().warn("Failed to get person",e);
 		}
 		return result;
 	}
@@ -90,18 +113,29 @@ public class UserDAOImpl implements UserDAO {
 		User result = null;
 		try (Connection conn = DAOUtilities.getConnection()){
 			String sql = "UPDATE ADMIN.ERS_USERS "
-				+ "SET ers_username = ? "
-				+ "WHERE ADMIN.ERS_USERS.ers_users_id = ?";
+				+ "SET ers_username = ?, ers_password = ?, user_first_name = ?, "
+				+ "user_last_name = ?, user_email = ?, user_role_id = ? "
+				+ "WHERE ers_users_id = ? ";
 
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
-				stmt.setInt(1, userToUpdate.getRole().getId());
-				stmt.setInt(2, userToUpdate.getId());
+				stmt.setString(1, userToUpdate.getUsername());
+				stmt.setString(2, userToUpdate.getPassword());
+				stmt.setString(3, userToUpdate.getFirstName());
+				stmt.setString(4, userToUpdate.getLastName());
+				stmt.setString(5, userToUpdate.getEmail());
+				if(userToUpdate.getRole() == null) {
+					stmt.setNull(6, Types.INTEGER);
+				}else {
+					stmt.setInt(6, userToUpdate.getRole().getId());
+				}
+				stmt.setInt(7, userToUpdate.getId());
 				int rs = stmt.executeUpdate();
 				if (rs > 0) {
 					result = userToUpdate;
 				}
 			}
 		}catch(SQLException e) {
+			e.printStackTrace();
 //			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
 		}
 		return result;
@@ -122,6 +156,7 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 		}catch(SQLException e) {
+			e.printStackTrace();
 //			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
 		}
 		return result;
@@ -138,6 +173,7 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 		}catch(SQLException e) {
+			e.printStackTrace();
 //			LoggerSingleton.getLogger().warn("Failed to get max account id",e);
 		}
 		return result;

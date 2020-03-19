@@ -26,6 +26,9 @@ public class UserHandler {
 		if(userId <= 0)return null;
 		return repository.get(userId);
 	}
+	public User get(String username) {
+		return repository.get(username);
+	}
 	public User update(User userToUpdate) {
 		return repository.update(userToUpdate);
 	}

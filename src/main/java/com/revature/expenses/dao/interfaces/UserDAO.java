@@ -8,6 +8,7 @@ public interface UserDAO {
 	User create(User reimbursmentToCreate);
 	List<User> list();
 	User get(int reimbursmentId);
+	User get(String username);
 	User update(User reimbursmentToUpdate);
 	boolean delete(User reimbursmentToDelete);
 	int getHighestId();

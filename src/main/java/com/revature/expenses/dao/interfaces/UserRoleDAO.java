@@ -8,6 +8,7 @@ public interface UserRoleDAO {
 	UserRole create(UserRole userRoleToCreate);
 	List<UserRole> list();
 	UserRole get(int userRoleId);
+	UserRole get(String userRole);
 	UserRole update(UserRole userRoleToUpdate);
 	boolean delete(UserRole userRoleToDelete);
 	int getHighestId();

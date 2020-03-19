@@ -12,9 +12,9 @@ public class User {
 	private UserRole role;
 	public User(String username, String password, String email) {
 		super();
-		this.username = username;
+		setUsername(username);
 		setPassword(password);
-		this.email = email;
+		setEmail(email);
 	}
 	public int getId() {
 		return id;

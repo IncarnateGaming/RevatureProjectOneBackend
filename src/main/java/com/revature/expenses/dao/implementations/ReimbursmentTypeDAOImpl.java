@@ -63,7 +63,27 @@ public class ReimbursmentTypeDAOImpl implements ReimbursmentTypeDAO {
 					+ "WHERE reimb_type_id = ?";
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
 				stmt.setInt(1, reimbursmentTypeId);
-				try(ResultSet rs = stmt.executeQuery(sql)){
+				try(ResultSet rs = stmt.executeQuery()){
+					while(rs.next()) {
+						result = objectBuilder(rs);
+					}
+				}
+			}
+		}catch(SQLException e) {
+//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+		}
+		return result;
+	}
+
+	@Override
+	public ReimbursmentType get(String type) {
+		ReimbursmentType result = null;
+		try (Connection conn = DAOUtilities.getConnection()){
+			String sql = "SELECT * FROM ADMIN.ERS_REIMBURSEMENT_TYPE "
+					+ "WHERE reimb_type = ?";
+			try(PreparedStatement stmt = conn.prepareStatement(sql)){
+				stmt.setString(1, type);
+				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						result = objectBuilder(rs);
 					}

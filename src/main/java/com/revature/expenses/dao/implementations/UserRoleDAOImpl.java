@@ -63,7 +63,31 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 					+ "WHERE ers_user_role_id = ?";
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
 				stmt.setInt(1, userRoleId);
-				try(ResultSet rs = stmt.executeQuery(sql)){
+				try(ResultSet rs = stmt.executeQuery()){
+					while(rs.next()) {
+						result = objectBuilder(rs);
+					}
+				}
+			}
+		}catch(SQLException e) {
+//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+		}
+		return result;
+	}
+	
+	/**
+	 * Wraps into the create as the create method uses a PL stored procedure to either retrieve
+	 * or create.
+	 */
+	@Override
+	public UserRole get(String userRole) {
+		UserRole result = null;
+		try (Connection conn = DAOUtilities.getConnection()){
+			String sql = "SELECT * FROM ADMIN.ERS_USER_ROLES "
+					+ "WHERE user_role = ?";
+			try(PreparedStatement stmt = conn.prepareStatement(sql)){
+				stmt.setString(1, userRole);
+				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						result = objectBuilder(rs);
 					}

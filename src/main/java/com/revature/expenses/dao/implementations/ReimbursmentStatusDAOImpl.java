@@ -32,6 +32,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 			DAOUtilities.commit(conn);
 		}catch(SQLException e) {
 //			LoggerSingleton.getLogger().warn("Failed to create account",e);
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -51,6 +52,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 			}
 		}catch(SQLException e) {
 //			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			e.printStackTrace();
 		}
 		return list;
 	}
@@ -70,6 +72,27 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 			}
 		}catch(SQLException e) {
 //			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public ReimbursmentStatus get(String status) {
+		ReimbursmentStatus result = null;
+		try (Connection conn = DAOUtilities.getConnection()){
+			String sql = "SELECT * FROM ADMIN.ERS_REIMBURSMENT_STATUS WHERE reimb_status = ?";
+			try(PreparedStatement stmt = conn.prepareStatement(sql)){
+				stmt.setString(1, status);
+				try(ResultSet rs = stmt.executeQuery()){
+					while(rs.next()) {
+						result = objectBuilder(rs);
+					}
+				}
+			}
+		}catch(SQLException e) {
+//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -92,6 +115,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 			}
 		}catch(SQLException e) {
 //			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -111,6 +135,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 			}
 		}catch(SQLException e) {
 //			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -127,6 +152,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 			}
 		}catch(SQLException e) {
 //			LoggerSingleton.getLogger().warn("Failed to get max account id",e);
+			e.printStackTrace();
 		}
 		return result;
 	}

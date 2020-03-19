@@ -120,7 +120,7 @@ END;
 CREATE TABLE ERS_USERS (
   ers_users_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   ers_username VARCHAR2(50) UNIQUE NOT NULL,
-  ers_password VARCHAR2(50) NOT NULL,
+  ers_password VARCHAR2(300) NOT NULL,
   user_first_name VARCHAR2(100),
   user_last_name VARCHAR2(100),
   user_email VARCHAR2(150) UNIQUE NOT NULL,

@@ -8,6 +8,7 @@ public interface ReimbursmentTypeDAO {
 	ReimbursmentType create(ReimbursmentType reimbursmentTypeToCreate);
 	List<ReimbursmentType> list();
 	ReimbursmentType get(int reimbursmentTypeId);
+	ReimbursmentType get(String type);
 	ReimbursmentType update(ReimbursmentType reimbursmentTypeToUpdate);
 	boolean delete(ReimbursmentType reimbursmentTypeToDelete);
 	int getHighestId();
