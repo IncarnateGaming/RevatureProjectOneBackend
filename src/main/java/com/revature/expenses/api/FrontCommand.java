@@ -10,7 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public abstract class FrontCommand {
+	protected static final ObjectMapper om = new ObjectMapper();
 	protected ServletContext context;
 	protected HttpServletRequest req;
 	protected HttpServletResponse res;
