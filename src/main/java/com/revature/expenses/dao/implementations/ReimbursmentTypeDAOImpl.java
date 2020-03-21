@@ -13,6 +13,7 @@ import java.util.List;
 import com.revature.expenses.dao.DAOUtilities;
 import com.revature.expenses.dao.interfaces.ReimbursmentTypeDAO;
 import com.revature.expenses.models.ReimbursmentType;
+import com.revature.expenses.services.helpers.LoggerSingleton;
 
 public class ReimbursmentTypeDAOImpl implements ReimbursmentTypeDAO {
 
@@ -31,7 +32,7 @@ public class ReimbursmentTypeDAOImpl implements ReimbursmentTypeDAO {
 			}
 			DAOUtilities.commit(conn);
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to create account",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to create reimbursment type",e);
 		}
 		return result;
 	}
@@ -50,7 +51,7 @@ public class ReimbursmentTypeDAOImpl implements ReimbursmentTypeDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to list reimbursment types",e);
 		}
 		return list;
 	}
@@ -70,7 +71,7 @@ public class ReimbursmentTypeDAOImpl implements ReimbursmentTypeDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get reimbursment type",e);
 		}
 		return result;
 	}
@@ -90,7 +91,7 @@ public class ReimbursmentTypeDAOImpl implements ReimbursmentTypeDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get reimbursment type",e);
 		}
 		return result;
 	}
@@ -112,7 +113,7 @@ public class ReimbursmentTypeDAOImpl implements ReimbursmentTypeDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to update reimbursment type",e);
 		}
 		return result;
 	}
@@ -123,7 +124,6 @@ public class ReimbursmentTypeDAOImpl implements ReimbursmentTypeDAO {
 		try (Connection conn = DAOUtilities.getConnection()){
 			String sql = "DELETE ADMIN.ERS_REIMBURSEMENT_TYPE "
 				+ "WHERE ADMIN.ERS_REIMBURSEMENT_TYPE.reimb_type_id = ?";
-
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
 				stmt.setInt(1, reimbursmentTypeToDelete.getId());
 				int rs = stmt.executeUpdate();
@@ -132,7 +132,7 @@ public class ReimbursmentTypeDAOImpl implements ReimbursmentTypeDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to delete reimbursment type",e);
 		}
 		return result;
 	}
@@ -148,7 +148,7 @@ public class ReimbursmentTypeDAOImpl implements ReimbursmentTypeDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get max account id",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get highest reimbursment type id",e);
 		}
 		return result;
 	}

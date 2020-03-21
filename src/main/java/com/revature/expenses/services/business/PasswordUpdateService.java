@@ -2,6 +2,7 @@ package com.revature.expenses.services.business;
 
 import com.revature.expenses.models.User;
 import com.revature.expenses.services.handlers.UserHandler;
+import com.revature.expenses.services.helpers.LoggerSingleton;
 import com.revature.expenses.services.helpers.PasswordHelper;
 
 public class PasswordUpdateService {
@@ -12,7 +13,7 @@ public class PasswordUpdateService {
 		boolean result = false;
 		User checkUser = LoginService.login(username, oldPassword);
 		if (checkUser == null) {
-//			Logger saying user not found
+			LoggerSingleton.getAccessLog().warn("Attempt to change user: " + username + " with faulty credentials.");
 		}else {
 			checkUser.setPassword(PasswordHelper.encryptPassword(newPassword));
 			if(userHandler.update(checkUser) != null) {

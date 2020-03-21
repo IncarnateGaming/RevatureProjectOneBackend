@@ -13,6 +13,7 @@ import java.util.List;
 import com.revature.expenses.dao.DAOUtilities;
 import com.revature.expenses.dao.interfaces.ReimbursmentStatusDAO;
 import com.revature.expenses.models.ReimbursmentStatus;
+import com.revature.expenses.services.helpers.LoggerSingleton;
 
 public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 
@@ -31,8 +32,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 			}
 			DAOUtilities.commit(conn);
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to create account",e);
-			e.printStackTrace();
+			LoggerSingleton.getExceptionLogger().warn("Failed to create reimbursment status",e);
 		}
 		return result;
 	}
@@ -51,8 +51,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
-			e.printStackTrace();
+			LoggerSingleton.getExceptionLogger().warn("Failed to list reimbursment stati",e);
 		}
 		return list;
 	}
@@ -71,8 +70,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
-			e.printStackTrace();
+			LoggerSingleton.getExceptionLogger().warn("Failed to get reimbursment status",e);
 		}
 		return result;
 	}
@@ -91,8 +89,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
-			e.printStackTrace();
+			LoggerSingleton.getExceptionLogger().warn("Failed to get reimbursment status",e);
 		}
 		return result;
 	}
@@ -114,8 +111,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
-			e.printStackTrace();
+			LoggerSingleton.getExceptionLogger().warn("Failed to update reimbursment status",e);
 		}
 		return result;
 	}
@@ -134,8 +130,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
-			e.printStackTrace();
+			LoggerSingleton.getExceptionLogger().warn("Failed to delete reimbursment status",e);
 		}
 		return result;
 	}
@@ -151,8 +146,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get max account id",e);
-			e.printStackTrace();
+			LoggerSingleton.getExceptionLogger().warn("Failed to get highest reimbursment status id",e);
 		}
 		return result;
 	}

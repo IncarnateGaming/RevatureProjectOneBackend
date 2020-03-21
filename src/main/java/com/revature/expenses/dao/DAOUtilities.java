@@ -15,6 +15,7 @@ import com.revature.expenses.dao.interfaces.ReimbursmentStatusDAO;
 import com.revature.expenses.dao.interfaces.ReimbursmentTypeDAO;
 import com.revature.expenses.dao.interfaces.UserDAO;
 import com.revature.expenses.dao.interfaces.UserRoleDAO;
+import com.revature.expenses.services.helpers.LoggerSingleton;
 
 //import com.revature.expenses.services.helpers.LoggerSingleton;
 
@@ -72,12 +73,12 @@ public class DAOUtilities {
 			try {
 				connection = DriverManager.getConnection(URL,CONNECTION_USERNAME,CONNECTION_PASSWORD);
 			}catch(SQLException e) {
-//				LoggerSingleton.getExceptionLogger().warn("Failed to get connection", e);
+				LoggerSingleton.getExceptionLogger().warn("Failed to get connection",e);
 			}
 		}catch(ClassNotFoundException e) {
-//			LoggerSingleton.getExceptionLogger().warn("Oracle db driver not found",e);
+			LoggerSingleton.getExceptionLogger().warn("Oracle db driver not found",e);
 		}catch(RuntimeException e) {
-//			LoggerSingleton.getExceptionLogger().warn("Connection Failed", e);
+			LoggerSingleton.getExceptionLogger().warn("Connection Failed", e);
 		}
 		if (connection.isClosed()){
 			System.out.println("getting new connection...");

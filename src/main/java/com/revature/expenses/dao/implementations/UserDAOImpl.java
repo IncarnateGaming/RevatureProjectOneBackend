@@ -14,6 +14,7 @@ import com.revature.expenses.dao.DAOUtilities;
 import com.revature.expenses.dao.interfaces.UserDAO;
 import com.revature.expenses.models.User;
 import com.revature.expenses.services.handlers.UserRoleHandler;
+import com.revature.expenses.services.helpers.LoggerSingleton;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -41,8 +42,7 @@ public class UserDAOImpl implements UserDAO {
 			}
 			DAOUtilities.commit(conn);
 		}catch(SQLException e) {
-			e.printStackTrace();
-//			LoggerSingleton.getLogger().warn("Failed to create account",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to create user",e);
 		}
 		return result;
 	}
@@ -61,8 +61,7 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to list users",e);
 		}
 		return list;
 	}
@@ -82,8 +81,7 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get user",e);
 		}
 		return result;
 	}
@@ -102,8 +100,7 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
-//			LoggerSingleton.getLogger().warn("Failed to get person",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get user",e);
 		}
 		return result;
 	}
@@ -135,8 +132,7 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to update user",e);
 		}
 		return result;
 	}
@@ -147,7 +143,6 @@ public class UserDAOImpl implements UserDAO {
 		try (Connection conn = DAOUtilities.getConnection()){
 			String sql = "DELETE ADMIN.ERS_USERS "
 				+ "WHERE ADMIN.ERS_USERS.ers_users_id = ?";
-
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
 				stmt.setInt(1, userToDelete.getId());
 				int rs = stmt.executeUpdate();
@@ -156,8 +151,7 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to delete user",e);
 		}
 		return result;
 	}
@@ -173,8 +167,7 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
-//			LoggerSingleton.getLogger().warn("Failed to get max account id",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get highest user id",e);
 		}
 		return result;
 	}

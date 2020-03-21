@@ -72,7 +72,6 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 			}
 			DAOUtilities.commit(conn);
 		}catch(SQLException e) {
-			e.printStackTrace();
 			LoggerSingleton.getExceptionLogger().warn("Failed to create account",e);
 		}
 		return result;
@@ -92,7 +91,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get accounts",e);
 		}
 		return list;
 	}
@@ -112,7 +111,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get accounts",e);
 		}
 		return list;
 	}
@@ -133,7 +132,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get accounts",e);
 		}
 		return list;
 	}
@@ -156,7 +155,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get accounts",e);
 		}
 		return list;
 	}
@@ -179,7 +178,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get accounts",e);
 		}
 		return list;
 	}
@@ -203,7 +202,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get accounts",e);
 		}
 		return list;
 	}
@@ -223,7 +222,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get account",e);
 		}
 		return result;
 	}
@@ -253,7 +252,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to update account",e);
 		}
 		return result;
 	}
@@ -272,7 +271,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to delete account",e);
 		}
 		return result;
 	}
@@ -288,7 +287,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get max account id",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get highest id",e);
 		}
 		return result;
 	}

@@ -13,6 +13,7 @@ import java.util.List;
 import com.revature.expenses.dao.DAOUtilities;
 import com.revature.expenses.dao.interfaces.UserRoleDAO;
 import com.revature.expenses.models.UserRole;
+import com.revature.expenses.services.helpers.LoggerSingleton;
 
 public class UserRoleDAOImpl implements UserRoleDAO {
 
@@ -31,7 +32,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 			}
 			DAOUtilities.commit(conn);
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to create account",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to create user role",e);
 		}
 		return result;
 	}
@@ -50,7 +51,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to list user roles",e);
 		}
 		return list;
 	}
@@ -70,7 +71,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get user role",e);
 		}
 		return result;
 	}
@@ -94,7 +95,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get user role",e);
 		}
 		return result;
 	}
@@ -106,7 +107,6 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 			String sql = "UPDATE ADMIN.ERS_USER_ROLES "
 				+ "SET user_role = ? "
 				+ "WHERE ADMIN.ERS_USER_ROLES.ers_user_role_id = ?";
-
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
 				stmt.setString(1, userRoleToUpdate.getRole());
 				stmt.setInt(2, userRoleToUpdate.getId());
@@ -116,7 +116,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to update user role",e);
 		}
 		return result;
 	}
@@ -136,7 +136,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to delete user role",e);
 		}
 		return result;
 	}
@@ -152,7 +152,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 				}
 			}
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to get max account id",e);
+			LoggerSingleton.getExceptionLogger().warn("Failed to get highest user role id",e);
 		}
 		return result;
 	}
