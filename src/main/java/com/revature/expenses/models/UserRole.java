@@ -7,6 +7,9 @@ public class UserRole implements Serializable {
 	private static final long serialVersionUID = -1590930832839925757L;
 	private int id;
 	private String role;
+	public UserRole() {
+		super();
+	}
 	public UserRole(String role) {
 		super();
 		this.role = role;

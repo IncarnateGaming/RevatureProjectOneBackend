@@ -19,7 +19,7 @@ public abstract class FrontCommand {
 	protected HttpServletResponse res;
 	protected String body;
 	protected PrintWriter out;
-	private String type;
+	protected String type;
 	public void init(ServletContext context, HttpServletRequest req, HttpServletResponse res) throws IOException {
 		this.context = context;
 		this.req = req;

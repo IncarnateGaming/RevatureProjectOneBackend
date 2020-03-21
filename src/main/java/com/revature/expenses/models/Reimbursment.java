@@ -1,12 +1,14 @@
 package com.revature.expenses.models;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
 import com.revature.expenses.services.helpers.MathHelper;
 
-public class Reimbursment {
+public class Reimbursment implements Serializable{
+	private static final long serialVersionUID = -9082304697143329368L;
 	private int id;
 	private double amount;
 	private String description;
@@ -17,6 +19,9 @@ public class Reimbursment {
 	private User resolver;
 	private ReimbursmentStatus status;
 	private ReimbursmentType type;
+	public Reimbursment() {
+		super();
+	}
 	public Reimbursment(double amount,User author, ReimbursmentStatus status, ReimbursmentType type) {
 		setAmount(amount);
 		this.author = author;

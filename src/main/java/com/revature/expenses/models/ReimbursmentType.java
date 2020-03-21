@@ -7,6 +7,9 @@ public class ReimbursmentType implements Serializable{
 	private static final long serialVersionUID = -7535642665977135280L;
 	private int id;
 	private String type;
+	public ReimbursmentType() {
+		super();
+	}
 	public ReimbursmentType(String type) {
 		super();
 		this.type = type;

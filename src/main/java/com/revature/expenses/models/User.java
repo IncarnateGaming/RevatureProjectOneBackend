@@ -1,8 +1,10 @@
 package com.revature.expenses.models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable{
+	private static final long serialVersionUID = -7137806992807427048L;
 	private int id;
 	private String username;
 	private String password;
@@ -10,6 +12,9 @@ public class User {
 	private String lastName;
 	private String email;
 	private UserRole role;
+	public User() {
+		super();
+	}
 	public User(String username, String password, String email) {
 		super();
 		setUsername(username);

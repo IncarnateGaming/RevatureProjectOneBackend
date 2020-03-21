@@ -7,6 +7,9 @@ public class ReimbursmentStatus implements Serializable{
 	private static final long serialVersionUID = -5250790775324935132L;
 	private int id;
 	private String status;
+	public ReimbursmentStatus() {
+		super();
+	}
 	public ReimbursmentStatus(String status) {
 		super();
 		this.status = status;
