@@ -96,3 +96,4 @@ com.revature.expenses.exceptions.PasswordMatchFailed: null
 	at java.lang.Thread.run(Unknown Source) [?:1.8.0_241]
 [WARN ] 2020-03-21 10:04:13.898 [http-nio-8080-exec-1] accessLogger - INVALID PASSWORD login fail: bugsBunny
 [WARN ] 2020-03-21 10:04:24.051 [http-nio-8080-exec-4] accessLogger - USER NOT FOUND login fail: bugBunny
+[WARN ] 2020-03-21 14:37:20.324 [http-nio-8080-exec-10] accessLogger - INVALID PASSWORD login fail: bugsBunny

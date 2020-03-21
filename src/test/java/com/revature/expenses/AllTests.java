@@ -10,13 +10,14 @@ import com.revature.expenses.services.handlers.ReimbursmentStatusHandlerTest;
 import com.revature.expenses.services.handlers.ReimbursmentTypeHandlerTest;
 import com.revature.expenses.services.handlers.UserHandlerTest;
 import com.revature.expenses.services.handlers.UserRoleHandlerTest;
+import com.revature.expenses.services.helpers.LoggerSingletonTest;
 import com.revature.expenses.services.helpers.MathHelperTest;
 import com.revature.expenses.services.helpers.PasswordHelperTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({
 	LoginServiceTest.class,
-//	LoggerSingletonTest.class,
+	LoggerSingletonTest.class,
 	MathHelperTest.class,
 	PasswordHelperTest.class,
 	PasswordUpdateServiceTest.class,
