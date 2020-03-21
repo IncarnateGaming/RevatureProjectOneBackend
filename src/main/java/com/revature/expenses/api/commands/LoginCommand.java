@@ -21,6 +21,7 @@ public class LoginCommand extends FrontCommand {
 			User user = null;
 			try {
 				user = LoginService.login(template.getUsername(), template.getPassword());
+				user.setPassword("****");
 			}catch(PasswordMatchFailed e) {
 				LoggerSingleton.getAccessLog().warn("INVALID PASSWORD login fail: " + template.getUsername());
 				res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

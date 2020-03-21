@@ -44,42 +44,52 @@ public class ReimbursmentCommand extends FrontCommand {
 			if(retrieved == null) {
 				res.setStatus(HttpServletResponse.SC_NO_CONTENT);
 				out.println("{\"status\":\"failure\"}");
+				LoggerSingleton.getExceptionLogger().warn("ReimbursmentCommand: Failed to retrieve requested reimbursment. Body: " + body);
 			}else if(retrieved.getAuthor().getId() == template.getSubmitter().getId() | template.getSubmitter().getRole().equals(userRoleHandler.getAdmin())) {
 				res.setStatus(HttpServletResponse.SC_ACCEPTED);
 				out.println(om.writeValueAsString(retrieved));
+				LoggerSingleton.getBusinessLog().trace("ReimbursmentCommand: User: " + template.getSubmitter().toString() + " retrieved reimbursment: " + retrieved.toString());
 			}else {
 				res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				out.println("{\"status\":\"failure\"}");
+				LoggerSingleton.getAccessLog().warn("ReimbursmentCommand: User: " + template.getSubmitter().toString() + " attempted to retrieve reimbursment: " + retrieved.toString());
 			}
 		}else if (type.equals("POST")) {
 			Reimbursment stored = reimbursmentHandler.create(template.getReimbursment());
 			if(stored != null) {
 				res.setStatus(HttpServletResponse.SC_CREATED);
 				out.println(om.writeValueAsString(stored));
+				LoggerSingleton.getBusinessLog().trace("ReimbursmentCommand: User: " + template.getSubmitter().toString() + " created reimbursment: " + stored.toString());
 			}else {
 				res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				out.println("{\"status\":\"failure\"}");
+				LoggerSingleton.getExceptionLogger().warn("ReimbursmentCommand: reimbursment creation failed. Body: " + body);
 			}
 		}else if (type.equals("PUT")) {
 			Reimbursment retrieved = reimbursmentHandler.get(template.getReimbursment().getId());
 			if(retrieved == null) {
 				res.setStatus(HttpServletResponse.SC_NO_CONTENT);
 				out.println("{\"status\":\"failure\"}");
+				LoggerSingleton.getExceptionLogger().warn("ReimbursmentCommand: Failed to retrieve requested reimbursment for update. Body: " + body);
 			}else if(retrieved.getAuthor().getId() == template.getSubmitter().getId() | template.getSubmitter().getRole().equals(userRoleHandler.getAdmin())) {
 				Reimbursment updated = reimbursmentHandler.update(template.getReimbursment());
 				if(updated != null) {
 					res.setStatus(HttpServletResponse.SC_ACCEPTED);
 					out.println(om.writeValueAsString(updated));
+					LoggerSingleton.getBusinessLog().trace("ReimbursmentCommand: User: " + template.getSubmitter().toString() + " updated reimbursment: " + updated.toString());
 				}else {
 					res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					out.println("{\"status\":\"failure\"}");
+					LoggerSingleton.getExceptionLogger().warn("ReimbursmentCommand: Failed to update requested reimbursment. Body: " + body);
 				}
 			}else {
 				res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				out.println("{\"status\":\"failure\"}");
+				LoggerSingleton.getAccessLog().warn("ReimbursmentCommand: User: " + template.getSubmitter().toString() + " attempted to update reimbursment: " + retrieved.toString());
 			}
 		}else {
 			res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+			LoggerSingleton.getAccessLog().warn("ReimbursmentCommand: Attempt to perform unallowed method: " + type + " Body: " + body);
 		}
 	}
 }

@@ -15,6 +15,7 @@ import java.util.List;
 import com.revature.expenses.dao.DAOUtilities;
 import com.revature.expenses.dao.interfaces.ReimbursmentDAO;
 import com.revature.expenses.models.Reimbursment;
+import com.revature.expenses.models.ReimbursmentStatus;
 import com.revature.expenses.models.User;
 import com.revature.expenses.services.handlers.ReimbursmentStatusHandler;
 import com.revature.expenses.services.handlers.ReimbursmentTypeHandler;
@@ -160,14 +161,14 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 		return list;
 	}
 	@Override
-	public List<Reimbursment> list(int limit, int offset, int status) {
+	public List<Reimbursment> list(int limit, int offset, ReimbursmentStatus status) {
 		List<Reimbursment> list = new ArrayList<>();
 		try (Connection conn = DAOUtilities.getConnection()){
 			String sql = "SELECT * FROM ADMIN.ERS_REIMBURSEMENT "
 					+ "WHERE reimb_status_id = ? "
 					+ "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
-				stmt.setInt(1, status);
+				stmt.setInt(1, status.getId());
 				stmt.setInt(2, offset);
 				stmt.setInt(3, limit);
 				try(ResultSet rs = stmt.executeQuery()){
@@ -183,14 +184,14 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 		return list;
 	}
 	@Override
-	public List<Reimbursment> list(User user, int limit, int offset, int status) {
+	public List<Reimbursment> list(User user, int limit, int offset, ReimbursmentStatus status) {
 		List<Reimbursment> list = new ArrayList<>();
 		try (Connection conn = DAOUtilities.getConnection()){
 			String sql = "SELECT * FROM ADMIN.ERS_REIMBURSEMENT "
 					+ "WHERE reimb_status_id = ? AND reimb_author = ? "
 					+ "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
-				stmt.setInt(1, status);
+				stmt.setInt(1, status.getId());
 				stmt.setInt(2, user.getId());
 				stmt.setInt(3, offset);
 				stmt.setInt(4, limit);
