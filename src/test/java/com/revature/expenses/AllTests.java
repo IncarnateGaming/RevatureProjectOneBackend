@@ -5,6 +5,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import com.revature.expenses.services.business.LoginServiceTest;
 import com.revature.expenses.services.business.PasswordUpdateServiceTest;
+import com.revature.expenses.services.handlers.ReimbursmentHandlerTest;
 import com.revature.expenses.services.handlers.ReimbursmentStatusHandlerTest;
 import com.revature.expenses.services.handlers.ReimbursmentTypeHandlerTest;
 import com.revature.expenses.services.handlers.UserHandlerTest;
@@ -22,7 +23,8 @@ import com.revature.expenses.services.helpers.PasswordHelperTest;
 	ReimbursmentStatusHandlerTest.class,
 	ReimbursmentTypeHandlerTest.class,
 	UserRoleHandlerTest.class,
-	UserHandlerTest.class
+	UserHandlerTest.class,
+	ReimbursmentHandlerTest.class
 })
 public class AllTests {
 

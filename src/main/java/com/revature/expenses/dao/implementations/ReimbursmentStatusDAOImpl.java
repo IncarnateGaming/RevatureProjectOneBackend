@@ -64,7 +64,7 @@ public class ReimbursmentStatusDAOImpl implements ReimbursmentStatusDAO {
 			String sql = "SELECT * FROM ADMIN.ERS_REIMBURSMENT_STATUS WHERE reimb_status_id = ?";
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
 				stmt.setInt(1, reimbursmentStatusId);
-				try(ResultSet rs = stmt.executeQuery(sql)){
+				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						result = objectBuilder(rs);
 					}

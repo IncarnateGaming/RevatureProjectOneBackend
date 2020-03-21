@@ -25,6 +25,9 @@ public class MathHelper {
 	public static double doubleRound2(double input) {
 		return doubleRound(input,2);
 	}
+	public static double doubleRoundDown2(double input) {
+		return doubleRoundDown(input,2);
+	}
 	/**
 	 * Handles rounding of doubles using a Big Decimal to avoid edge case crashes
 	 * @param input
@@ -32,6 +35,9 @@ public class MathHelper {
 	 */
 	public static double doubleRound5(double input) {
 		return doubleRound(input,5);
+	}
+	public static double doubleRoundDown5(double input) {
+		return doubleRoundDown(input,5);
 	}
 	private static double doubleRound(double input, int precision) {
 		BigDecimal bigDecimal = BigDecimal.valueOf(input);

@@ -15,24 +15,28 @@ public class FrontController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{
 		FrontCommand command = getCommand(req);
+		command.setType("GET");
 		command.init(getServletContext(),req,res);
 		command.process();
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{
 		FrontCommand command = getCommand(req);
+		command.setType("POST");
 		command.init(getServletContext(),req,res);
 		command.process();
 	}
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{
 		FrontCommand command = getCommand(req);
+		command.setType("PUT");
 		command.init(getServletContext(),req,res);
 		command.process();
 	}
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{
 		FrontCommand command = getCommand(req);
+		command.setType("DELETE");
 		command.init(getServletContext(),req,res);
 		command.process();
 	}

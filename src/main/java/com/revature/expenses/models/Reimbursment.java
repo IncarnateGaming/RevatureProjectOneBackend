@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.sql.Date;
 import java.util.Objects;
 
+import com.revature.expenses.services.helpers.MathHelper;
+
 public class Reimbursment {
 	private int id;
 	private double amount;
@@ -15,9 +17,10 @@ public class Reimbursment {
 	private User resolver;
 	private ReimbursmentStatus status;
 	private ReimbursmentType type;
-	public Reimbursment(double amount,User author, ReimbursmentType type) {
-		this.amount = amount;
+	public Reimbursment(double amount,User author, ReimbursmentStatus status, ReimbursmentType type) {
+		setAmount(amount);
 		this.author = author;
+		this.status = status;
 		this.type = type;
 	}
 	public int getId() {
@@ -30,6 +33,8 @@ public class Reimbursment {
 		return amount;
 	}
 	public void setAmount(double amount) {
+		amount = MathHelper.doubleRoundDown2(amount);
+		if(amount < 0) {amount *= -1;}
 		this.amount = amount;
 	}
 	public String getDescription() {

@@ -19,6 +19,7 @@ public abstract class FrontCommand {
 	protected HttpServletResponse res;
 	protected String body;
 	protected PrintWriter out;
+	private String type;
 	public void init(ServletContext context, HttpServletRequest req, HttpServletResponse res) throws IOException {
 		this.context = context;
 		this.req = req;
@@ -38,6 +39,12 @@ public abstract class FrontCommand {
 		target = String.format("/WEB-INF/%s.html",target);
 		RequestDispatcher dispatcher = context.getRequestDispatcher(target);
 		dispatcher.forward(req, res);
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

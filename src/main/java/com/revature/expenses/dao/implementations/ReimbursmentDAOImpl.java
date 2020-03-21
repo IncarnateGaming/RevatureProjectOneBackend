@@ -15,10 +15,12 @@ import java.util.List;
 import com.revature.expenses.dao.DAOUtilities;
 import com.revature.expenses.dao.interfaces.ReimbursmentDAO;
 import com.revature.expenses.models.Reimbursment;
+import com.revature.expenses.models.User;
 import com.revature.expenses.services.handlers.ReimbursmentStatusHandler;
 import com.revature.expenses.services.handlers.ReimbursmentTypeHandler;
 import com.revature.expenses.services.handlers.UserHandler;
 import com.revature.expenses.services.handlers.UserRoleHandler;
+import com.revature.expenses.services.helpers.LoggerSingleton;
 
 public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 
@@ -65,11 +67,13 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				stmt.setInt(7, reimbursmentToCreate.getType().getId());
 				stmt.execute();
 				int resultId = (Integer) stmt.getObject(1);
-				result = get(resultId);
+				reimbursmentToCreate.setId(resultId);
+				result = reimbursmentToCreate;
 			}
 			DAOUtilities.commit(conn);
 		}catch(SQLException e) {
-//			LoggerSingleton.getLogger().warn("Failed to create account",e);
+			e.printStackTrace();
+			LoggerSingleton.getExceptionLogger().warn("Failed to create account",e);
 		}
 		return result;
 	}
@@ -92,6 +96,117 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 		}
 		return list;
 	}
+	@Override
+	public List<Reimbursment> list(User user) {
+		List<Reimbursment> list = new ArrayList<>();
+		try (Connection conn = DAOUtilities.getConnection()){
+			String sql = "SELECT * FROM ADMIN.ERS_REIMBURSEMENT "
+					+ "WHERE reimb_author = ? ";
+			try(PreparedStatement stmt = conn.prepareStatement(sql)){
+				stmt.setInt(1, user.getId());
+				try(ResultSet rs = stmt.executeQuery()){
+					while(rs.next()) {
+						Reimbursment obj = objectBuilder(rs);
+						list.add(obj);
+					}
+				}
+			}
+		}catch(SQLException e) {
+//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+		}
+		return list;
+	}
+	@Override
+	public List<Reimbursment> list(int limit, int offset) {
+		List<Reimbursment> list = new ArrayList<>();
+		try (Connection conn = DAOUtilities.getConnection()){
+			String sql = "SELECT * FROM ADMIN.ERS_REIMBURSEMENT "
+					+ "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+			try(PreparedStatement stmt = conn.prepareStatement(sql)){
+				stmt.setInt(1, offset);
+				stmt.setInt(2, limit);
+				try(ResultSet rs = stmt.executeQuery()){
+					while(rs.next()) {
+						Reimbursment obj = objectBuilder(rs);
+						list.add(obj);
+					}
+				}
+			}
+		}catch(SQLException e) {
+//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+		}
+		return list;
+	}
+	@Override
+	public List<Reimbursment> list(User user, int limit, int offset) {
+		List<Reimbursment> list = new ArrayList<>();
+		try (Connection conn = DAOUtilities.getConnection()){
+			String sql = "SELECT * FROM ADMIN.ERS_REIMBURSEMENT "
+					+ "WHERE reimb_author = ? "
+					+ "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+			try(PreparedStatement stmt = conn.prepareStatement(sql)){
+				stmt.setInt(1, user.getId());
+				stmt.setInt(2, offset);
+				stmt.setInt(3, limit);
+				try(ResultSet rs = stmt.executeQuery()){
+					while(rs.next()) {
+						Reimbursment obj = objectBuilder(rs);
+						list.add(obj);
+					}
+				}
+			}
+		}catch(SQLException e) {
+//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+		}
+		return list;
+	}
+	@Override
+	public List<Reimbursment> list(int limit, int offset, int status) {
+		List<Reimbursment> list = new ArrayList<>();
+		try (Connection conn = DAOUtilities.getConnection()){
+			String sql = "SELECT * FROM ADMIN.ERS_REIMBURSEMENT "
+					+ "WHERE reimb_status_id = ? "
+					+ "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+			try(PreparedStatement stmt = conn.prepareStatement(sql)){
+				stmt.setInt(1, status);
+				stmt.setInt(2, offset);
+				stmt.setInt(3, limit);
+				try(ResultSet rs = stmt.executeQuery()){
+					while(rs.next()) {
+						Reimbursment obj = objectBuilder(rs);
+						list.add(obj);
+					}
+				}
+			}
+		}catch(SQLException e) {
+//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+		}
+		return list;
+	}
+	@Override
+	public List<Reimbursment> list(User user, int limit, int offset, int status) {
+		List<Reimbursment> list = new ArrayList<>();
+		try (Connection conn = DAOUtilities.getConnection()){
+			String sql = "SELECT * FROM ADMIN.ERS_REIMBURSEMENT "
+					+ "WHERE reimb_status_id = ? AND reimb_author = ? "
+					+ "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+			try(PreparedStatement stmt = conn.prepareStatement(sql)){
+				stmt.setInt(1, status);
+				stmt.setInt(2, user.getId());
+				stmt.setInt(3, offset);
+				stmt.setInt(4, limit);
+				try(ResultSet rs = stmt.executeQuery()){
+					while(rs.next()) {
+						Reimbursment obj = objectBuilder(rs);
+						list.add(obj);
+					}
+				}
+			}
+		}catch(SQLException e) {
+//			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
+		}
+		return list;
+	}
 
 	@Override
 	public Reimbursment get(int reimbursmentId) {
@@ -101,7 +216,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 					+ "WHERE reimb_id = ?";
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
 				stmt.setInt(1, reimbursmentId);
-				try(ResultSet rs = stmt.executeQuery(sql)){
+				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						result = objectBuilder(rs);
 					}
@@ -117,11 +232,11 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 	public Reimbursment update(Reimbursment reimbursmentToUpdate) {
 		Reimbursment result = null;
 		try (Connection conn = DAOUtilities.getConnection()){
-			String sql = "UPDATE ADMIN.ERS_REIMBURSEMENT "
+			String sql = "UPDATE ADMIN.ERS_REIMBURSEMENT SET "
 				+ "reimb_resolved = ?, reimb_description = ?, "
 				+ "reimb_receipt = ?, reimb_resolver = ?, reimb_status_id = ?, "
-				+ "reimb_type_id = ?"
-				+ "WHERE ADMIN.ERS_REIMBURSMENT_STATUS.reimb_id = ?";
+				+ "reimb_type_id = ? "
+				+ "WHERE reimb_id = ?";
 
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
 				stmt.setDate(1, reimbursmentToUpdate.getResolved());
@@ -130,12 +245,14 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				stmt.setInt(4, reimbursmentToUpdate.getResolver().getId());
 				stmt.setInt(5, reimbursmentToUpdate.getStatus().getId());
 				stmt.setInt(6, reimbursmentToUpdate.getType().getId());
+				stmt.setInt(7, reimbursmentToUpdate.getId());
 				int rs = stmt.executeUpdate();
 				if (rs > 0) {
 					result = reimbursmentToUpdate;
 				}
 			}
 		}catch(SQLException e) {
+			e.printStackTrace();
 //			LoggerSingleton.getLogger().warn("Failed to get accounts",e);
 		}
 		return result;
@@ -179,14 +296,15 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 		Reimbursment result =  new Reimbursment(
 				rs.getDouble("reimb_amount"),
 				getUserHandler().get(rs.getInt("reimb_author")),
+				getReimbursmentStatusHandler().get(rs.getInt("reimb_status_id")),
 				getReimbursmentTypeHandler().get(rs.getInt("reimb_type_id"))
 				);
+		result.setSubmitted(rs.getDate("reimb_submitted"));
 		result.setDescription(rs.getString("reimb_description"));
 		result.setId(rs.getInt("reimb_id"));
 		result.setReceipt((BufferedImage) rs.getBlob("reimb_receipt"));
 		result.setResolved(rs.getDate("reimb_resolved"));
 		result.setResolver(getUserHandler().get(rs.getInt("reimb_resolver")));
-		result.setStatus(getReimbursmentStatusHandler().get(rs.getInt("reimb_status_id")));
 		return result;
 	}
 }

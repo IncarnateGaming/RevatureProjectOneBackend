@@ -11,19 +11,19 @@ public class LoggerSingleton {
 	}
 	public static Logger getExceptionLogger() {
 		if (exceptionLog == null) {
-			exceptionLog =  LogManager.getLogger("rolling");//"errorLog"
+			exceptionLog =  LogManager.getLogger("exceptionLogger");
 		}
 		return exceptionLog;
 	}
 	public static Logger getBusinessLog() {
 		if(businessLog == null) {
-			businessLog = LogManager.getLogger("businessLog");
+			businessLog = LogManager.getLogger("businessLogger");
 		}
 		return businessLog;
 	}
 	public static Logger getAccessLog() {
 		if(accessDeniedLog == null) {
-			accessDeniedLog = LogManager.getLogger("accessLog");
+			accessDeniedLog = LogManager.getLogger("accessLogger");
 		}
 		return accessDeniedLog;
 	}

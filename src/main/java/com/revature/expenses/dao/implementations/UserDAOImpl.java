@@ -75,7 +75,7 @@ public class UserDAOImpl implements UserDAO {
 					+ "WHERE ers_users_id = ?";
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
 				stmt.setInt(1, userId);
-				try(ResultSet rs = stmt.executeQuery(sql)){
+				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						result = objectBuilder(rs);
 					}
