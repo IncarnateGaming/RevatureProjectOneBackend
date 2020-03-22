@@ -25,7 +25,7 @@ public class ReimbursmentListCommand extends FrontCommand {
 			List<Reimbursment> result = getList(template);
 			if(result != null) {
 				out.println(om.writeValueAsString(result));
-				LoggerSingleton.getExceptionLogger().warn("ReimbursmentListCommand: data retrieved by user: " + template.getSubmitter()
+				LoggerSingleton.getBusinessLog().warn("ReimbursmentListCommand: data retrieved by user: " + template.getSubmitter()
 					+ " with parameters- filter by user: " + template.getFilterBy() 
 					+ " limit: " + template.getLimit() + " offset: " + template.getOffset() + " status: " + template.getStatus());
 			}else {
