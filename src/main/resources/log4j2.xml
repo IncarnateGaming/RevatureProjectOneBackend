@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO">
     <Properties>
-        <Property name="basePath">D:/Revature/projects/PhilipLawrence1Expenses/project_one/logs</Property>
+        <Property name="basePath">${env:REV_ERS_LOGS}</Property>
     </Properties>
     <Appenders>
         <RollingFile name="exceptionLogger" fileName="${basePath}/exception-log.log" filePattern="${basePath}/exception-log-%d{yyyy-MM-dd}.log">
@@ -34,14 +34,14 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="exceptionLogger" level="debug" additivity="true">
+        <Logger name="exceptionLogger" level="all" additivity="true">
             <AppenderRef ref="exceptionLogger" />
         </Logger>
-        <Logger name="businessLogger" level="debug" additivity="true">
+        <Logger name="businessLogger" level="all" additivity="true">
             <AppenderRef ref="businessLogger" />
             <AppenderRef ref="console" />
         </Logger>
-        <Logger name="accessLogger" level="debug" additivity="true">
+        <Logger name="accessLogger" level="all" additivity="true">
             <AppenderRef ref="accessLogger" />
             <AppenderRef ref="console" />
         </Logger>
