@@ -1,1 +1,9 @@
-/target*
+target/*
+*.class
+.classpath
+.factorypath
+.gitattributes
+.project
+.settings/*
+.*
+*~

@@ -12,7 +12,7 @@ public class UnknownCommand extends FrontCommand {
 	@Override
 	public void process() throws ServletException, IOException {
 		res.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		out.println("Unknown command requested.");
+		out.println("{\"status:\":\"Unknown command requested.\"}");
 	}
 
 }

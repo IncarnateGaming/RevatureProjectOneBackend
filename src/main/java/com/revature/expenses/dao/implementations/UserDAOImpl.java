@@ -56,6 +56,7 @@ public class UserDAOImpl implements UserDAO {
 				try(ResultSet rs = stmt.executeQuery(sql)){
 					while(rs.next()) {
 						User obj = objectBuilder(rs);
+						obj.setPassword("****");
 						list.add(obj);
 					}
 				}

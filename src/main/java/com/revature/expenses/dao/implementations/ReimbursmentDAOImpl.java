@@ -6,7 +6,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
@@ -317,21 +316,6 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 		}catch(SQLException e) {
 			LoggerSingleton.getExceptionLogger().warn("Failed to get highest id",e);
 		}
-		return result;
-	}
-	private Reimbursment objectBuilder(ResultSet rs) throws SQLException {
-		Reimbursment result =  new Reimbursment(
-				rs.getDouble("reimb_amount"),
-				getUserHandler().get(rs.getInt("reimb_author")),
-				getReimbursmentStatusHandler().get(rs.getInt("reimb_status_id")),
-				getReimbursmentTypeHandler().get(rs.getInt("reimb_type_id"))
-				);
-		result.setSubmitted(rs.getDate("reimb_submitted"));
-		result.setDescription(rs.getString("reimb_description"));
-		result.setId(rs.getInt("reimb_id"));
-		result.setReceipt((BufferedImage) rs.getBlob("reimb_receipt"));
-		result.setResolved(rs.getDate("reimb_resolved"));
-		result.setResolver(getUserHandler().get(rs.getInt("reimb_resolver")));
 		return result;
 	}
 	private Reimbursment objectBuilderJoin(ResultSet rs) throws SQLException {

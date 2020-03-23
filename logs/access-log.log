@@ -1,1 +1,3 @@
-[WARN ] 2020-03-22 17:46:23.004 [http-nio-8080-exec-1] accessLogger - USER NOT FOUND login fail: bugBunny
+[WARN ] 2020-03-23 13:45:10.828 [http-nio-8080-exec-3] accessLogger - UserListcommand: Denied access to list by. body:{"role":{	"id":1,	"role":"Admin" }}
+[WARN ] 2020-03-23 13:46:36.260 [http-nio-8080-exec-2] accessLogger - UserListcommand: Denied access to list by. body:{"role":{	"id":1,	"role":"Admin" }}
+[WARN ] 2020-03-23 13:47:30.911 [http-nio-8080-exec-6] accessLogger - UserListcommand: Denied access to list by. body:{"role":{	"id":1,	"role":"Admin" }}
