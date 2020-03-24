@@ -1264,3 +1264,4 @@ ORA-06512: at "ADMIN.CREATE_ERS_USER", line 9
 
 	at oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:498) ~[ojdbc8-12.2.0.1.jar:12.2.0.1.0]
 	... 40 more
+[WARN ] 2020-03-23 23:05:15.467 [http-nio-8080-exec-3] exceptionLogger - Login Failed, invalid user: BrownEyes

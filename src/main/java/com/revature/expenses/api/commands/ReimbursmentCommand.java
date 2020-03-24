@@ -28,8 +28,6 @@ public class ReimbursmentCommand extends FrontCommand {
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}else if (type.equals("DELETE")) {
 			doDelete(template);
-		}else if (type.equals("GET")) {
-			doGet(template);
 		}else if (type.equals("POST")) {
 			doPost(template);
 		}else if (type.equals("PUT")) {
@@ -52,22 +50,6 @@ public class ReimbursmentCommand extends FrontCommand {
 			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			out.println("{\"status\":\"failure\"}");
 			LoggerSingleton.getAccessLog().warn("ReimbursmentCommand: Attempted to delete without being admin. Body: " + body);
-		}
-	}
-	private void doGet(ReimbursmentTemplate template) throws JsonProcessingException {
-		Reimbursment retrieved = reimbursmentHandler.get(template.getReimbursment().getId());
-		if(retrieved == null) {
-			res.setStatus(HttpServletResponse.SC_NO_CONTENT);
-			out.println("{\"status\":\"failure\"}");
-			LoggerSingleton.getExceptionLogger().warn("ReimbursmentCommand: Failed to retrieve requested reimbursment. Body: " + body);
-		}else if(retrieved.getAuthor().getId() == template.getSubmitter().getId() | template.getSubmitter().getRole().equals(userRoleHandler.getAdmin())) {
-			res.setStatus(HttpServletResponse.SC_ACCEPTED);
-			out.println(om.writeValueAsString(retrieved));
-			LoggerSingleton.getBusinessLog().trace("ReimbursmentCommand: User: " + template.getSubmitter().toString() + " retrieved reimbursment: " + retrieved.toString());
-		}else {
-			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			out.println("{\"status\":\"failure\"}");
-			LoggerSingleton.getAccessLog().warn("ReimbursmentCommand: User: " + template.getSubmitter().toString() + " attempted to retrieve reimbursment: " + retrieved.toString());
 		}
 	}
 	private void doPost(ReimbursmentTemplate template) throws JsonProcessingException {
