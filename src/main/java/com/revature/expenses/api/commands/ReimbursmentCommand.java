@@ -10,6 +10,7 @@ import com.revature.expenses.api.FrontCommand;
 import com.revature.expenses.api.templates.ReimbursmentTemplate;
 import com.revature.expenses.models.Reimbursment;
 import com.revature.expenses.services.handlers.ReimbursmentHandler;
+import com.revature.expenses.services.handlers.ReimbursmentStatusHandler;
 import com.revature.expenses.services.handlers.UserRoleHandler;
 import com.revature.expenses.services.helpers.LoggerSingleton;
 
@@ -17,10 +18,11 @@ public class ReimbursmentCommand extends FrontCommand {
 
 	private static UserRoleHandler userRoleHandler = new UserRoleHandler();
 	private static ReimbursmentHandler reimbursmentHandler = new ReimbursmentHandler();
+	private static ReimbursmentStatusHandler reimbursmentStatusHandler = new ReimbursmentStatusHandler();
 	@Override
 	public void process() throws ServletException, IOException {
 		ReimbursmentTemplate template = om.readValue(body,  ReimbursmentTemplate.class);
-		if(template.getSubmitter() == null | template.getSubmitter().getId() == 0) {
+		if(template == null | template.getSubmitter() == null | template.getSubmitter().getId() == 0) {
 			LoggerSingleton.getAccessLog().warn("ReimbursmentCommand: attempt to access without being logged in. Body: " + body);
 			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}else if (template.getReimbursment() == null) {
@@ -53,6 +55,7 @@ public class ReimbursmentCommand extends FrontCommand {
 		}
 	}
 	private void doPost(ReimbursmentTemplate template) throws JsonProcessingException {
+		template.getReimbursment().setStatus(reimbursmentStatusHandler.getPending());
 		Reimbursment created = reimbursmentHandler.create(template.getReimbursment());
 		if(created != null) {
 			res.setStatus(HttpServletResponse.SC_CREATED);
