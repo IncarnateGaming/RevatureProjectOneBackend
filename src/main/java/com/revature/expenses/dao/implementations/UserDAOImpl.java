@@ -111,22 +111,21 @@ public class UserDAOImpl implements UserDAO {
 		User result = null;
 		try (Connection conn = DAOUtilities.getConnection()){
 			String sql = "UPDATE ADMIN.ERS_USERS "
-				+ "SET ers_username = ?, ers_password = ?, user_first_name = ?, "
+				+ "SET ers_username = ?, user_first_name = ?, "
 				+ "user_last_name = ?, user_email = ?, user_role_id = ? "
 				+ "WHERE ers_users_id = ? ";
 
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
 				stmt.setString(1, userToUpdate.getUsername());
-				stmt.setString(2, userToUpdate.getPassword());
-				stmt.setString(3, userToUpdate.getFirstName());
-				stmt.setString(4, userToUpdate.getLastName());
-				stmt.setString(5, userToUpdate.getEmail());
+				stmt.setString(2, userToUpdate.getFirstName());
+				stmt.setString(3, userToUpdate.getLastName());
+				stmt.setString(4, userToUpdate.getEmail());
 				if(userToUpdate.getRole() == null) {
-					stmt.setNull(6, Types.INTEGER);
+					stmt.setNull(5, Types.INTEGER);
 				}else {
-					stmt.setInt(6, userToUpdate.getRole().getId());
+					stmt.setInt(5, userToUpdate.getRole().getId());
 				}
-				stmt.setInt(7, userToUpdate.getId());
+				stmt.setInt(6, userToUpdate.getId());
 				int rs = stmt.executeUpdate();
 				if (rs > 0) {
 					result = userToUpdate;

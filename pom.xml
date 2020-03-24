@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.revature.expenses</groupId>
   <artifactId>PhilipLawrence1Expenses</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
