@@ -1,9 +1,10 @@
 package com.revature.expenses.models;
 
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
+
+import javax.sql.rowset.serial.SerialBlob;
 
 import com.revature.expenses.services.helpers.MathHelper;
 
@@ -14,7 +15,7 @@ public class Reimbursment implements Serializable{
 	private String description;
 	private Date submitted;
 	private Date resolved;
-	private BufferedImage receipt;
+	private SerialBlob receipt;
 	private User author;
 	private User resolver;
 	private ReimbursmentStatus status;
@@ -60,10 +61,10 @@ public class Reimbursment implements Serializable{
 	public void setResolved(Date resolved) {
 		this.resolved = resolved;
 	}
-	public BufferedImage getReceipt() {
+	public SerialBlob getReceipt() {
 		return receipt;
 	}
-	public void setReceipt(BufferedImage receipt) {
+	public void setReceipt(SerialBlob receipt) {
 		this.receipt = receipt;
 	}
 	public User getAuthor() {

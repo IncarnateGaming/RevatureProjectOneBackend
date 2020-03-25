@@ -4,6 +4,7 @@
   <artifactId>PhilipLawrence1Expenses</artifactId>
   <version>0.0.4</version>
 	<build>
+		<finalName>ers</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
@@ -88,8 +89,7 @@
     <dependency>
 		<groupId>javax.servlet</groupId>
 		<artifactId>javax.servlet-api</artifactId>
-		<version>4.0.1</version>
-		<scope>provided</scope>
+		<version>3.1.0</version>
     </dependency>
 	<!-- Jackson databind -->
     <dependency>

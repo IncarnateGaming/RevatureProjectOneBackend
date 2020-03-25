@@ -2,6 +2,8 @@ package com.revature.expenses.services.handlers;
 
 import java.util.List;
 
+import javax.sql.rowset.serial.SerialBlob;
+
 import com.revature.expenses.dao.DAOUtilities;
 import com.revature.expenses.dao.interfaces.ReimbursmentDAO;
 import com.revature.expenses.models.Reimbursment;
@@ -42,6 +44,9 @@ public class ReimbursmentHandler {
 	public Reimbursment get(int reimbursmentId) {
 		if(reimbursmentId <= 0)return null;
 		return repository.get(reimbursmentId);
+	}
+	public boolean update(SerialBlob blob, int reimbursmentId) {
+		return repository.update(blob, reimbursmentId);
 	}
 	public Reimbursment update(Reimbursment reimbursmentToUpdate) {
 		return repository.update(reimbursmentToUpdate);

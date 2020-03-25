@@ -12,7 +12,7 @@ import com.revature.expenses.services.handlers.ReimbursmentHandler;
 import com.revature.expenses.services.handlers.UserRoleHandler;
 import com.revature.expenses.services.helpers.LoggerSingleton;
 
-public class ReimbursmentGetCommand extends FrontCommand{
+public class ReimbursmentBlobCommand extends FrontCommand{
 
 	private ReimbursmentHandler reimbursmentHandler = new ReimbursmentHandler();
 	private UserRoleHandler userRoleHandler = new UserRoleHandler();
@@ -26,7 +26,7 @@ public class ReimbursmentGetCommand extends FrontCommand{
 			LoggerSingleton.getExceptionLogger().warn("ReimbursmentGetCommand: attempt to submit without attachning a reimbursment. Body: " + body);
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}else {
-			if (type.equals("POST")) {
+			if (type.equals("POST")) {//Get blob
 				Reimbursment retrieved = reimbursmentHandler.get(template.getReimbursment().getId());
 				if(retrieved == null) {
 					res.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -41,9 +41,11 @@ public class ReimbursmentGetCommand extends FrontCommand{
 					out.println("{\"status\":\"failure\"}");
 					LoggerSingleton.getAccessLog().warn("ReimbursmentGetCommand: User: " + template.getSubmitter().toString() + " attempted to retrieve reimbursment: " + retrieved.toString());
 				}
+			}else if (type.equals("PUT")) {//Update Blob
+				
 			}else {
 				res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-				LoggerSingleton.getAccessLog().warn("ReimbursmentGetCommand: Attempt to perform unallowed method: " + type + " Body: " + body);
+				LoggerSingleton.getAccessLog().warn("ReimbursmentBlobCommand: Attempt to perform unallowed method: " + type + " Body: " + body);
 			}
 		}
 	}
