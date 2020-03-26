@@ -90,7 +90,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 	public Reimbursment create(Reimbursment reimbursmentToCreate) {
 		Reimbursment result = null;
 		try (Connection conn = DAOUtilities.getConnection()){
-			String sql = "call admin.create_ers_reimbursement(?,?,?,?,?,?,?)";
+			String sql = "call admin.create_ers_reimbursement(?,?,?,?,?,?)";
 			try(CallableStatement stmt = conn.prepareCall(sql)){
 				stmt.registerOutParameter(1, Types.INTEGER);
 				stmt.setDouble(2, reimbursmentToCreate.getAmount());

@@ -19,7 +19,7 @@ public class ReimbursmentGetCommand extends FrontCommand{
 	@Override
 	public void process() throws ServletException, IOException {
 		ReimbursmentTemplate template = om.readValue(body, ReimbursmentTemplate.class);
-		if(template.getSubmitter() == null | template.getSubmitter().getId() == 0) {
+		if(template.getSubmitter() == null || template.getSubmitter().getId() == 0) {
 			LoggerSingleton.getAccessLog().warn("ReimbursmentGetCommand: attempt to access without being logged in. Body: " + body);
 			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}else if (template.getReimbursment() == null) {

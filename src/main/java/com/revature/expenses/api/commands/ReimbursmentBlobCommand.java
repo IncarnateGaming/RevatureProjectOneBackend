@@ -50,12 +50,14 @@ public class ReimbursmentBlobCommand extends FrontCommand{
 							for(byte blobPart : receipt.getBytes(1L,(int) receipt.length())) {
 								out.print(blobPart);
 							}
+							System.out.println("");
 							res.setStatus(HttpServletResponse.SC_ACCEPTED);
 							res.setHeader("Content-Type", "image/jpeg");
 							res.setHeader("mimeType", "image/jpeg");
+							LoggerSingleton.getBusinessLog().trace("ReimbursmentBlobCommand: retrieved blob for reimbursment: " + id);
 						}else {
 							res.setStatus(204);//No Content
-							LoggerSingleton.getBusinessLog().trace("ReimbursmentBlobCommand: attempted to retrieve a blob from a receipt that does not exist.");
+							LoggerSingleton.getExceptionLogger().trace("ReimbursmentBlobCommand: attempted to retrieve a blob from a receipt that does not exist.");
 						}
 					} catch (SerialException e) {
 						res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -58,13 +58,13 @@ public class ReimbursmentCommand extends FrontCommand {
 		template.getReimbursment().setStatus(reimbursmentStatusHandler.getPending());
 		Reimbursment created = reimbursmentHandler.create(template.getReimbursment());
 		if(created != null) {
+			LoggerSingleton.getBusinessLog().trace("ReimbursmentCommand: User: " + template.getSubmitter().toString() + " created reimbursment: " + created.toString());
 			res.setStatus(HttpServletResponse.SC_CREATED);
 			out.println(om.writeValueAsString(created));
-			LoggerSingleton.getBusinessLog().trace("ReimbursmentCommand: User: " + template.getSubmitter().toString() + " created reimbursment: " + created.toString());
 		}else {
+			LoggerSingleton.getExceptionLogger().warn("ReimbursmentCommand: reimbursment creation failed. Body: " + body);
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			out.println("{\"status\":\"failure\"}");
-			LoggerSingleton.getExceptionLogger().warn("ReimbursmentCommand: reimbursment creation failed. Body: " + body);
 		}
 	}
 	private void doPut(ReimbursmentTemplate template) throws JsonProcessingException {
