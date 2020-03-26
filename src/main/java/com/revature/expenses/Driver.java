@@ -1,9 +1,10 @@
 package com.revature.expenses;
 
-import com.revature.expenses.services.helpers.LoggerSingleton;
+import com.revature.expenses.services.handlers.ReimbursmentHandler;
 
 public class Driver {
 	public static void main(String[] args) {
-		LoggerSingleton.getBusinessLog().trace("Test Message4");
+		ReimbursmentHandler reimbursmentHandler = new ReimbursmentHandler();
+		System.out.println(reimbursmentHandler.list(10, 5));
 	}
 }

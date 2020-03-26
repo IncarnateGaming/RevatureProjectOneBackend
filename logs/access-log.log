@@ -1,1 +1,2 @@
 [WARN ] 2020-03-25 22:22:59.640 [http-nio-8080-exec-4] accessLogger - ReimbursmentBlobCommand: attempt to access without being logged in.
+[WARN ] 2020-03-25 23:01:29.775 [http-nio-8080-exec-8] accessLogger - INVALID PASSWORD login fail: bugsBunny

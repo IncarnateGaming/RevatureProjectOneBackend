@@ -31,11 +31,25 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 	private static ReimbursmentTypeHandler reimbursmentTypeHandler;
 	private static UserHandler userHandler;
 	private static UserRoleHandler userRoleHandler;
-	private static String selectStar = 
-						"SELECT * FROM ADMIN.ERS_REIMBURSEMENT main "
+	private static String selectJoin = ""
+					+"SELECT "
+					+ "main.reimb_id, main.reimb_amount, main.reimb_submitted, main.reimb_resolved, "
+					+ "main.reimb_description, main.reimb_author, main.reimb_resolver, main.reimb_status_id, "
+					+ "main.reimb_type_id, "
+					+ "join_author.ers_users_id, join_author.ers_username, "
+					+ "join_author.ers_password, join_author.user_first_name, join_author.user_last_name, "
+					+ "join_author.user_email, join_author.user_role_id, join_author_role.ers_user_role_id, "
+					+ "join_author_role.user_role, "	
+					+ "join_resolver.ers_users_id, join_resolver.ers_username, "
+					+ "join_resolver.ers_password, join_resolver.user_first_name, join_resolver.user_last_name, "
+					+ "join_resolver.user_email, join_resolver.user_role_id, join_resolver_role.ers_user_role_id, "
+					+ "join_resolver_role.user_role, "
+					+ "join_status.reimb_status_id, join_status.reimb_status, "
+					+ "join_type.reimb_type_id, join_type.reimb_type "
+					+ "FROM ADMIN.ERS_REIMBURSEMENT main "
 			;
-	private static String joinTables = 
-					" LEFT JOIN ADMIN.ERS_USERS join_author ON "
+	private static String joinTables =  ""
+					+" LEFT JOIN ADMIN.ERS_USERS join_author ON "
 						+ "main.reimb_author = join_author.ers_users_id "
 					+" LEFT JOIN ADMIN.ERS_USER_ROLES join_author_role ON "
 						+ "join_author.user_role_id = join_author_role.ers_user_role_id "
@@ -102,11 +116,12 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 		List<Reimbursment> list = new ArrayList<>();
 		try (Connection conn = DAOUtilities.getConnection()){
 			try(Statement stmt = conn.createStatement()){
-				String sql = selectStar
+				String sql = selectJoin
 					+ joinTables;
 				try(ResultSet rs = stmt.executeQuery(sql)){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
+						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -120,7 +135,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 	public List<Reimbursment> list(User user) {
 		List<Reimbursment> list = new ArrayList<>();
 		try (Connection conn = DAOUtilities.getConnection()){
-			String sql = selectStar
+			String sql = selectJoin
 					+ joinTables
 					+ "WHERE main.reimb_author = ? ";
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -128,6 +143,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
+						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -141,7 +157,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 	public List<Reimbursment> list(int limit, int offset) {
 		List<Reimbursment> list = new ArrayList<>();
 		try (Connection conn = DAOUtilities.getConnection()){
-			String sql = selectStar
+			String sql = selectJoin
 					+ joinTables
 					+ "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -150,6 +166,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
+						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -163,7 +180,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 	public List<Reimbursment> list(User user, int limit, int offset) {
 		List<Reimbursment> list = new ArrayList<>();
 		try (Connection conn = DAOUtilities.getConnection()){
-			String sql = selectStar
+			String sql = selectJoin
 					+ joinTables
 					+ "WHERE main.reimb_author = ? "
 					+ "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
@@ -174,6 +191,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
+						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -187,7 +205,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 	public List<Reimbursment> list(int limit, int offset, ReimbursmentStatus status) {
 		List<Reimbursment> list = new ArrayList<>();
 		try (Connection conn = DAOUtilities.getConnection()){
-			String sql = selectStar
+			String sql = selectJoin
 					+ joinTables
 					+ "WHERE main.reimb_status_id = ? "
 					+ "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
@@ -198,6 +216,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
+						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -211,7 +230,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 	public List<Reimbursment> list(User user, int limit, int offset, ReimbursmentStatus status) {
 		List<Reimbursment> list = new ArrayList<>();
 		try (Connection conn = DAOUtilities.getConnection()){
-			String sql = selectStar
+			String sql = selectJoin
 					+ joinTables
 					+ "WHERE main.reimb_status_id = ? AND main.reimb_author = ? "
 					+ "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
@@ -223,6 +242,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
+						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -237,7 +257,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 	public Reimbursment get(int reimbursmentId) {
 		Reimbursment result = null;
 		try (Connection conn = DAOUtilities.getConnection()){
-			String sql = selectStar
+			String sql = selectJoin
 					+ joinTables
 					+ "WHERE reimb_id = ?";
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -246,10 +266,16 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 					while(rs.next()) {
 						result = objectBuilderJoin(rs);
 					}
+				}catch(Exception e) {
+					LoggerSingleton.getExceptionLogger().error("Reimbursment.get: Failed to get result set: ", e);
 				}
+			}catch(Exception e){
+				LoggerSingleton.getExceptionLogger().error("Reimbursment.get: Failed to prepare statement: ", e);
 			}
 		}catch(SQLException e) {
 			LoggerSingleton.getExceptionLogger().warn("Failed to get reimbursment",e);
+		}catch(Exception e) {
+			LoggerSingleton.getExceptionLogger().error("Reimbursment.get: Failed to establish connection: ", e);
 		}
 		return result;
 	}
@@ -345,9 +371,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 //		int length = rsmd.getColumnCount();
 //		for (int a = 1; a<=length; a++) {
 //			System.out.print(rsmd.getColumnName(a)+": ");
-//			if(a != 6) {//Skip the blob... really skip it
-//				System.out.println(rs.getString(a));
-//			}
+//			System.out.println(rs.getString(a));
 //		}
 //		System.out.println("");
 		Reimbursment result =  new Reimbursment();
@@ -355,50 +379,49 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 		result.setSubmitted(rs.getDate("reimb_submitted"));
 		result.setDescription(rs.getString("reimb_description"));
 		result.setId(rs.getInt("reimb_id"));
-		result.setReceipt(new SerialBlob( rs.getBlob("reimb_receipt")));
 		result.setResolved(rs.getDate("reimb_resolved"));
 		User author = new User();
 		if(rs.getInt("reimb_author")>0) {
-			author.setId(rs.getInt(11));
-			author.setUsername(rs.getString(12));
-			author.setPassword(rs.getString(13));
-			author.setFirstName(rs.getString(14));
-			author.setLastName(rs.getString(15));
-			author.setEmail(rs.getString(16));
+			author.setId(rs.getInt(10));
+			author.setUsername(rs.getString(11));
+			author.setPassword(rs.getString(12));
+			author.setFirstName(rs.getString(13));
+			author.setLastName(rs.getString(14));
+			author.setEmail(rs.getString(15));
 			UserRole role = new UserRole();
-			if(rs.getInt(17)>0) {
-				role.setId(rs.getInt(18));
-				role.setRole(rs.getString(19));
+			if(rs.getInt(16)>0) {
+				role.setId(rs.getInt(17));
+				role.setRole(rs.getString(18));
 			}
 			author.setRole(role);
 		}
 		result.setAuthor(author);
 		User resolver = new User();
 		if(rs.getInt("reimb_resolver")>0) {
-			resolver.setId(rs.getInt(20));
-			resolver.setUsername(rs.getString(21));
-			resolver.setPassword(rs.getString(22));
-			resolver.setFirstName(rs.getString(23));
-			resolver.setLastName(rs.getString(24));
-			resolver.setEmail(rs.getString(25));
+			resolver.setId(rs.getInt(19));
+			resolver.setUsername(rs.getString(20));
+			resolver.setPassword(rs.getString(21));
+			resolver.setFirstName(rs.getString(22));
+			resolver.setLastName(rs.getString(23));
+			resolver.setEmail(rs.getString(24));
 			UserRole role = new UserRole();
-			if(rs.getInt(26)>0) {
-				role.setId(rs.getInt(27));
-				role.setRole(rs.getString(28));
+			if(rs.getInt(25)>0) {
+				role.setId(rs.getInt(26));
+				role.setRole(rs.getString(27));
 			}
 			resolver.setRole(role);	
 		}
 		result.setResolver(resolver);
 		ReimbursmentStatus status = new ReimbursmentStatus();
 		if(rs.getInt("reimb_status_id")>0) {
-			status.setId(rs.getInt(29));
-			status.setStatus(rs.getString(30));
+			status.setId(rs.getInt(28));
+			status.setStatus(rs.getString(29));
 		}
 		result.setStatus(status);
 		ReimbursmentType type = new ReimbursmentType();
 		if(rs.getInt("reimb_type_id")>0) {
-			type.setId(rs.getInt(31));
-			type.setType(rs.getString(32));
+			type.setId(rs.getInt(30));
+			type.setType(rs.getString(31));
 		}
 		result.setType(type);
 		return result;

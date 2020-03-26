@@ -45,18 +45,14 @@ public class ReimbursmentBlobCommand extends FrontCommand{
 			if (type.equals("POST")) {//Get blob
 				if((reimbursment = reimbursmentHandler.get(id))!= null) {
 					try {
-						int a = 0;
 						for(byte blobPart : reimbursment.getReceipt().getBytes(1L,(int) reimbursment.getReceipt().length())) {
-//							if(a++ < 100) {
-								out.print(blobPart);
-//							}else {
-//								a = 0;
-//								out.println(blobPart);
-//							}
+							out.print(blobPart);
 						}
+						res.setHeader("Content-Type", "image/jpeg");
+						res.addHeader("mimeType", "image/jpeg");
 					} catch (SerialException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+						LoggerSingleton.getExceptionLogger().warn("ReimbursmentBlobCommand: serial exception in post: ", e);
 					}
 				}
 			}else if (type.equals("PUT")) {//Update Blob

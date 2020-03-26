@@ -15,6 +15,7 @@ import com.revature.expenses.dao.interfaces.ReimbursmentStatusDAO;
 import com.revature.expenses.dao.interfaces.ReimbursmentTypeDAO;
 import com.revature.expenses.dao.interfaces.UserDAO;
 import com.revature.expenses.dao.interfaces.UserRoleDAO;
+import com.revature.expenses.exceptions.ConnectionToDatabaseFailed;
 import com.revature.expenses.services.helpers.LoggerSingleton;
 
 //import com.revature.expenses.services.helpers.LoggerSingleton;
@@ -62,11 +63,17 @@ public class DAOUtilities {
 		return userRoleDao;
 	}
 	public static synchronized Connection getConnection() throws SQLException {
+		if(CONNECTION_PASSWORD == null) {
+			LoggerSingleton.getExceptionLogger().warn("System env password 'REV_ERS_CONN_PASS' is not set, "
+					+ "connecting without password is not possible.");
+		}else if(CONNECTION_USERNAME == null) {
+			LoggerSingleton.getExceptionLogger().warn("System env password 'REV_ERS_CONN_USR' is not set, "
+					+ "connecting without username is not possible.");
+		}else if(URL == null) {
+			LoggerSingleton.getExceptionLogger().warn("System env password 'REV_ERS_URL' is not set, "
+					+ "connecting without database location is not possible.");
+		}
 		try {
-			if(CONNECTION_PASSWORD == null) {
-				throw new RuntimeException("System env password 'REV_BANK_CONN' is not set, "
-						+ "connecting without password is not possible.");
-			}
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			//This above statement uses Reflection to confirm that a class with this fully qualified name
 			//is available
@@ -77,11 +84,14 @@ public class DAOUtilities {
 			}
 		}catch(ClassNotFoundException e) {
 			LoggerSingleton.getExceptionLogger().warn("Oracle db driver not found",e);
-		}catch(RuntimeException e) {
+		}catch(Exception e) {
 			LoggerSingleton.getExceptionLogger().warn("Connection Failed", e);
 		}
-		if (connection.isClosed()){
-			System.out.println("getting new connection...");
+		if (connection == null) {
+			LoggerSingleton.getExceptionLogger().fatal("Connection to database failed. Check internet status and credentials.");
+			throw new ConnectionToDatabaseFailed();
+		}else if (connection.isClosed()){
+			System.out.println("reopening connection...");
 			connection = DriverManager.getConnection(URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);
 		}
 		return connection;

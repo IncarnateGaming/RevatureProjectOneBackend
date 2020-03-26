@@ -83,7 +83,7 @@ END;
 
 CREATE TABLE ERS_USER_ROLES (
   ers_user_role_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_role VARCHAR2(10)
+  user_role VARCHAR2(10)
 );
 
 CREATE OR REPLACE PROCEDURE create_ers_user_role(
@@ -257,3 +257,6 @@ BEGIN
    END IF;
 END;
 /
+--SELECT reimb_id, reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id
+--FROM ADMIN.ERS_REIMBURSEMENT  
+--    OFFSET 5 ROWS FETCH NEXT 10 ROWS ONLY;
