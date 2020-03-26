@@ -14,6 +14,13 @@ import com.revature.expenses.exceptions.ConnectionToDatabaseFailed;
 public class FrontController extends HttpServlet{
 	private static final long serialVersionUID = 7302326277418684325L;
 	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{
+		FrontCommand command = getCommand(req);
+		command.setType("OPTIONS");
+		command.init(getServletContext(),req,res);
+		res.setStatus(HttpServletResponse.SC_ACCEPTED);
+	}
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{
 		FrontCommand command = getCommand(req);
 		command.setType("GET");

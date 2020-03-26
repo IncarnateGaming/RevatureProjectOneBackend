@@ -95,10 +95,9 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				stmt.registerOutParameter(1, Types.INTEGER);
 				stmt.setDouble(2, reimbursmentToCreate.getAmount());
 				stmt.setString(3, reimbursmentToCreate.getDescription());
-				stmt.setBlob(4, reimbursmentToCreate.getReceipt().getBinaryStream());
-				stmt.setInt(5, reimbursmentToCreate.getAuthor().getId());
-				stmt.setInt(6, reimbursmentToCreate.getStatus().getId());
-				stmt.setInt(7, reimbursmentToCreate.getType().getId());
+				stmt.setInt(4, reimbursmentToCreate.getAuthor().getId());
+				stmt.setInt(5, reimbursmentToCreate.getStatus().getId());
+				stmt.setInt(6, reimbursmentToCreate.getType().getId());
 				stmt.execute();
 				int resultId = (Integer) stmt.getObject(1);
 				reimbursmentToCreate.setId(resultId);
@@ -121,7 +120,6 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				try(ResultSet rs = stmt.executeQuery(sql)){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
-						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -143,7 +141,6 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
-						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -166,7 +163,6 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
-						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -191,7 +187,6 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
-						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -216,7 +211,6 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
-						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -242,7 +236,6 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				try(ResultSet rs = stmt.executeQuery()){
 					while(rs.next()) {
 						Reimbursment obj = objectBuilderJoin(rs);
-						obj.setReceipt(null);
 						list.add(obj);
 					}
 				}
@@ -253,6 +246,32 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 		return list;
 	}
 
+	@Override
+	public SerialBlob getBlob(int reimbursmentId) {
+		SerialBlob result = null;
+		try (Connection conn = DAOUtilities.getConnection()){
+			String sql = "SELECT reimb_receipt FROM ADMIN.ERS_REIMBURSEMENT "
+					+ "WHERE reimb_id = ?";
+			try(PreparedStatement stmt = conn.prepareStatement(sql)){
+				stmt.setInt(1, reimbursmentId);
+				try(ResultSet rs = stmt.executeQuery()){
+					while(rs.next()) {
+						result = new SerialBlob(rs.getBlob("reimb_receipt"));
+					}
+				}catch(Exception e) {
+					LoggerSingleton.getExceptionLogger().error("Reimbursment.getBlob: Failed to get result set: ", e);
+				}
+			}catch(Exception e){
+				LoggerSingleton.getExceptionLogger().error("Reimbursment.getBlob: Failed to prepare statement: ", e);
+			}
+		}catch(SQLException e) {
+			LoggerSingleton.getExceptionLogger().warn("Reimbursment.getBlob: Failed to get blob of receipt",e);
+		}catch(Exception e) {
+			LoggerSingleton.getExceptionLogger().error("Reimbursment.getBlob: Failed to establish connection: ", e);
+		}
+		return result;
+	}
+	
 	@Override
 	public Reimbursment get(int reimbursmentId) {
 		Reimbursment result = null;
@@ -282,6 +301,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 	
 	public boolean update(SerialBlob blob, int reimbursmentId) {
 		boolean result = false;
+		if(blob == null)return result;
 		try (Connection conn = DAOUtilities.getConnection()){
 			String sql = "UPDATE ADMIN.ERS_REIMBURSEMENT SET "
 				+ "reimb_receipt = ? "

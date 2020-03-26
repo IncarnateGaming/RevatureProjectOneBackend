@@ -41,6 +41,10 @@ public class ReimbursmentHandler {
 	public List<Reimbursment> list(User user, int limit, int offset, ReimbursmentStatus status){
 		return repository.list(user, limit, offset, status);
 	}
+	public SerialBlob getBlob(int reimbursmentId) {
+		if(reimbursmentId <= 0)return null;
+		return repository.getBlob(reimbursmentId);
+	}
 	public Reimbursment get(int reimbursmentId) {
 		if(reimbursmentId <= 0)return null;
 		return repository.get(reimbursmentId);

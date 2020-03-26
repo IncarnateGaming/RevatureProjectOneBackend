@@ -33,7 +33,6 @@ public class ReimbursmentGetCommand extends FrontCommand{
 					out.println("{\"status\":\"failure\"}");
 					LoggerSingleton.getExceptionLogger().warn("ReimbursmentGetCommand: Failed to retrieve requested reimbursment. Body: " + body);
 				}else if(retrieved.getAuthor().getId() == template.getSubmitter().getId() | template.getSubmitter().getRole().equals(userRoleHandler.getAdmin())) {
-					retrieved.setReceipt(null);
 					res.setStatus(HttpServletResponse.SC_ACCEPTED);
 					out.println(om.writeValueAsString(retrieved));
 					LoggerSingleton.getBusinessLog().trace("ReimbursmentGetCommand: User: " + template.getSubmitter().toString() + " retrieved reimbursment: " + retrieved.toString());

@@ -45,11 +45,18 @@ public class ReimbursmentBlobCommand extends FrontCommand{
 			if (type.equals("POST")) {//Get blob
 				if((reimbursment = reimbursmentHandler.get(id))!= null) {
 					try {
-						for(byte blobPart : reimbursment.getReceipt().getBytes(1L,(int) reimbursment.getReceipt().length())) {
-							out.print(blobPart);
+						SerialBlob receipt =  reimbursment.receiveReceipt();
+						if(receipt != null) {
+							for(byte blobPart : receipt.getBytes(1L,(int) receipt.length())) {
+								out.print(blobPart);
+							}
+							res.setStatus(HttpServletResponse.SC_ACCEPTED);
+							res.setHeader("Content-Type", "image/jpeg");
+							res.setHeader("mimeType", "image/jpeg");
+						}else {
+							res.setStatus(204);//No Content
+							LoggerSingleton.getBusinessLog().trace("ReimbursmentBlobCommand: attempted to retrieve a blob from a receipt that does not exist.");
 						}
-						res.setHeader("Content-Type", "image/jpeg");
-						res.addHeader("mimeType", "image/jpeg");
 					} catch (SerialException e) {
 						res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 						LoggerSingleton.getExceptionLogger().warn("ReimbursmentBlobCommand: serial exception in post: ", e);

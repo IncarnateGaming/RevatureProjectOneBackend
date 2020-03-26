@@ -171,15 +171,14 @@ CREATE OR REPLACE PROCEDURE create_ers_reimbursement(
   usr_id OUT NUMBER, 
   rei_am IN NUMBER,
   rei_description IN VARCHAR2,
-  rei_rec IN BLOB,
   rei_aut IN NUMBER,
   rei_status IN NUMBER,
   rei_type IN NUMBER
 )
 IS
 BEGIN
-  INSERT INTO ERS_REIMBURSEMENT(reimb_amount, reimb_submitted, reimb_description, reimb_receipt, reimb_author, reimb_status_id, reimb_type_id) 
-    VALUES (rei_am, CURRENT_TIMESTAMP, rei_description, rei_rec, rei_aut, rei_status, rei_type)
+  INSERT INTO ERS_REIMBURSEMENT(reimb_amount, reimb_submitted, reimb_description, reimb_author, reimb_status_id, reimb_type_id) 
+    VALUES (rei_am, CURRENT_TIMESTAMP, rei_description, rei_aut, rei_status, rei_type)
     RETURNING reimb_id 
       INTO usr_id;
   COMMIT;

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.expenses.services.helpers.LoggerSingleton;
 
 public abstract class FrontCommand {
 	protected static final ObjectMapper om = new ObjectMapper();
@@ -21,6 +22,13 @@ public abstract class FrontCommand {
 	protected PrintWriter out;
 	protected String type;
 	public void init(ServletContext context, HttpServletRequest req, HttpServletResponse res) throws IOException {
+		try {
+			CORSFilter.doFilter(req,res);
+		} catch (IOException e) {
+			LoggerSingleton.getExceptionLogger().warn("FrontCommand: CORSFilter failed to be applied 1.");
+		} catch (ServletException e) {
+			LoggerSingleton.getExceptionLogger().warn("FrontCommand: CORSFilter failed to be applied 2.");
+		}
 		this.context = context;
 		this.req = req;
 		this.res = res;
