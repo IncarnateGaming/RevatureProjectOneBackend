@@ -1,6 +1,5 @@
 package com.revature.expenses.dao.implementations;
 
-import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -82,7 +81,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				stmt.registerOutParameter(1, Types.INTEGER);
 				stmt.setDouble(2, reimbursmentToCreate.getAmount());
 				stmt.setString(3, reimbursmentToCreate.getDescription());
-				stmt.setBlob(4, (Blob) reimbursmentToCreate.getReceipt());
+				stmt.setBlob(4, reimbursmentToCreate.getReceipt().getBinaryStream());
 				stmt.setInt(5, reimbursmentToCreate.getAuthor().getId());
 				stmt.setInt(6, reimbursmentToCreate.getStatus().getId());
 				stmt.setInt(7, reimbursmentToCreate.getType().getId());
@@ -263,7 +262,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				+ "WHERE reimb_id = ?";
 
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
-				stmt.setBlob(1, (Blob) blob);
+				stmt.setBlob(1, blob.getBinaryStream());
 				stmt.setInt(2, reimbursmentId);
 				int rs = stmt.executeUpdate();
 				if (rs > 0) {
@@ -356,7 +355,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 		result.setSubmitted(rs.getDate("reimb_submitted"));
 		result.setDescription(rs.getString("reimb_description"));
 		result.setId(rs.getInt("reimb_id"));
-		result.setReceipt((SerialBlob) rs.getBlob("reimb_receipt"));
+		result.setReceipt(new SerialBlob( rs.getBlob("reimb_receipt")));
 		result.setResolved(rs.getDate("reimb_resolved"));
 		User author = new User();
 		if(rs.getInt("reimb_author")>0) {
