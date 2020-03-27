@@ -48,9 +48,14 @@ public class UserCommand extends FrontCommand {
 		}
 	}
 	private void doPost(UserTemplate template) throws JsonProcessingException {
-		User user = new User(template.getUser().getUsername(), PasswordHelper.encryptPassword(template.getUser().getPassword()), template.getUser().getEmail());
-		user = userHandler.create(user);
+		User user = template.getUser();
+		System.out.println("1:"+user);
+		user.setPassword(PasswordHelper.encryptPassword(user.getPassword()));
 		user.setRole(userRoleHandler.getEmployee());
+		System.out.println("2:"+user);
+//		User user = new User(template.getUser().getUsername(), PasswordHelper.encryptPassword(template.getUser().getPassword()), template.getUser().getEmail());
+		user = userHandler.create(user);
+		System.out.println("3:"+user);
 		user = userHandler.update(user);
 		if(user != null) {
 			out.println(om.writeValueAsString(user));
