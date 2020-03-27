@@ -1,14 +1,12 @@
 package com.revature.expenses.api.commands;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
 
 import com.revature.expenses.api.FrontCommand;
+import com.revature.expenses.api.templates.BlobTemplate;
 import com.revature.expenses.models.Reimbursment;
 import com.revature.expenses.models.User;
 import com.revature.expenses.services.handlers.ReimbursmentHandler;
@@ -21,11 +19,14 @@ public class ReimbursmentBlobCommand extends FrontCommand{
 	private UserRoleHandler userRoleHandler = new UserRoleHandler();
 	@Override
 	public void process() throws ServletException, IOException {
-		User submitter = null;
-		if (req.getParameter("submitter") != null) {
-			submitter = om.readValue(req.getParameter("submitter"),User.class);
-		}
-		int id = 0;
+		BlobTemplate template = om.readValue(body,BlobTemplate.class);
+		User submitter = template.getSubmitter();
+		int id = template.getReimbursment().getId();
+//		User submitter = null;
+//		if (req.getParameter("submitter") != null) {
+//			submitter = om.readValue(req.getParameter("submitter"),User.class);
+//		}
+//		int id = 0;
 		try {
 			id = Integer.parseInt(req.getParameter("reimbursmentId"));
 		}catch(NumberFormatException e) {
@@ -38,11 +39,20 @@ public class ReimbursmentBlobCommand extends FrontCommand{
 		}else if ((id<=0) || (reimbursment = reimbursmentHandler.get(id)) == null) {
 			LoggerSingleton.getExceptionLogger().warn("ReimbursmentBlobCommand: attempt to submit blob without a valid reimbursment id.");
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}else if(reimbursment.getAuthor() == null || (submitter.getId() != reimbursment.getAuthor().getId())&&(submitter.getRole() == null || submitter.getRole().getRole().equals(userRoleHandler.getAdmin()))){
+		}else if(reimbursment.getAuthor() != null || (submitter.getId() == reimbursment.getAuthor().getId())&&(submitter.getRole() != null && submitter.getRole().equals(userRoleHandler.getAdmin()))){
+			if (type.equals("POST")) {//Get blob
+			}else if (type.equals("PUT")) {//Update Blob
+			}else {
+				res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+				LoggerSingleton.getAccessLog().warn("ReimbursmentBlobCommand: Attempt to perform unallowed method: " + type + " Body: " + body);
+			}
+		}else {
 			LoggerSingleton.getAccessLog().warn("ReimbursmentBlobCommand: attempt to access a receipt by: user: " + submitter.getId() + " username: " + submitter.getUsername());
 			res.setStatus(HttpServletResponse.SC_FORBIDDEN);
-		}else {
-			if (type.equals("POST")) {//Get blob
+		}
+	}
+}
+/*Post Try 1
 				if((reimbursment = reimbursmentHandler.get(id))!= null) {
 					try {
 						SerialBlob receipt =  reimbursment.receiveReceipt();
@@ -64,7 +74,8 @@ public class ReimbursmentBlobCommand extends FrontCommand{
 						LoggerSingleton.getExceptionLogger().warn("ReimbursmentBlobCommand: serial exception in post: ", e);
 					}
 				}
-			}else if (type.equals("PUT")) {//Update Blob
+*/
+/*Put Try 1
 				SerialBlob blob;
 				try {
 					blob = new SerialBlob(body.getBytes());
@@ -82,10 +93,4 @@ public class ReimbursmentBlobCommand extends FrontCommand{
 					LoggerSingleton.getExceptionLogger().warn("ReimbursmentBlobCommand: sql exception on blob extraction.");
 					res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				}
-			}else {
-				res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-				LoggerSingleton.getAccessLog().warn("ReimbursmentBlobCommand: Attempt to perform unallowed method: " + type + " Body: " + body);
-			}
-		}
-	}
-}
+*/

@@ -331,6 +331,7 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				+ "reimb_type_id = ? "
 				+ "WHERE reimb_id = ?";
 
+		System.out.println("Made it into update");
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
 				stmt.setDate(1, reimbursmentToUpdate.getResolved());
 				stmt.setString(2, reimbursmentToUpdate.getDescription());
@@ -338,13 +339,21 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				stmt.setInt(4, reimbursmentToUpdate.getStatus().getId());
 				stmt.setInt(5, reimbursmentToUpdate.getType().getId());
 				stmt.setInt(6, reimbursmentToUpdate.getId());
+				System.out.println("Made it to result set");
 				int rs = stmt.executeUpdate();
+				System.out.println("RS:" + rs);
 				if (rs > 0) {
 					result = reimbursmentToUpdate;
+				}else {
+					LoggerSingleton.getExceptionLogger().warn("ReimbursmentDAOImpl.update: failed to get result set");
 				}
+			}catch(Exception e) {
+				LoggerSingleton.getExceptionLogger().warn("ReimbursmentDAOImpl.update: failed to prepare statement");
 			}
 		}catch(SQLException e) {
 			LoggerSingleton.getExceptionLogger().warn("Failed to update reimbursment ",e);
+		}catch(Exception e) {
+			LoggerSingleton.getExceptionLogger().warn("ReimbursmentDAOImpl.update: failed to get connection");
 		}
 		return result;
 	}
