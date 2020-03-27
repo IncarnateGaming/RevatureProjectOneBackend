@@ -1,0 +1,9 @@
+[WARN ] 2020-03-26 16:12:53.972 [http-nio-8080-exec-20] accessLogger - USER NOT FOUND login fail: bugBunny
+[WARN ] 2020-03-26 21:21:10.457 [http-nio-8080-exec-122] accessLogger - ReimbursmentBlobCommand: attempt to access without being logged in.
+[WARN ] 2020-03-26 21:22:19.879 [http-nio-8080-exec-119] accessLogger - ReimbursmentBlobCommand: attempt to access without being logged in.
+[WARN ] 2020-03-26 21:23:57.908 [http-nio-8080-exec-132] accessLogger - ReimbursmentBlobCommand: attempt to access without being logged in.
+[WARN ] 2020-03-26 21:24:48.118 [http-nio-8080-exec-134] accessLogger - ReimbursmentBlobCommand: attempt to access without being logged in.
+[WARN ] 2020-03-26 21:25:05.385 [http-nio-8080-exec-130] accessLogger - ReimbursmentBlobCommand: attempt to access without being logged in.
+[WARN ] 2020-03-26 21:25:34.921 [http-nio-8080-exec-136] accessLogger - ReimbursmentBlobCommand: attempt to access without being logged in.
+[WARN ] 2020-03-26 21:25:51.126 [http-nio-8080-exec-135] accessLogger - ReimbursmentBlobCommand: attempt to access without being logged in.
+[WARN ] 2020-03-26 21:30:08.007 [http-nio-8080-exec-146] accessLogger - ReimbursmentBlobCommand: attempt to access without being logged in.
