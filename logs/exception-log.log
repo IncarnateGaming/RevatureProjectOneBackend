@@ -3306,3 +3306,40 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-02291: integrity constraint 
 [WARN ] 2020-03-26 22:22:07.116 [http-nio-8080-exec-188] exceptionLogger - ReimbursmentCommand: Failed to update requested reimbursment. Body: {"submitter":{"id":22,"username":"fire","password":"****","firstName":null,"lastName":null,"email":"fire","role":{"id":1,"role":"Employee"}},"reimbursment":{"id":167,"amount":198.12,"description":"Planks","submitted":1585270709000,"resolved":null,"author":{"id":22,"username":"fire","password":"$s0$e0801$/GfvjstTzFARBCFnERnSYw==$10jGPCSFqjaDML2wbbqw+CynNEbltA6WRYFlDrFwLEs=","firstName":null,"lastName":null,"email":"fire","role":{"id":1,"role":"Employee"}},"resolver":{"id":0,"username":null,"password":null,"firstName":null,"lastName":null,"email":null,"role":null},"status":{"id":1,"status":"Pending"},"type":{"id":3,"type":"Lodging"}}}
 [WARN ] 2020-03-26 22:26:10.422 [http-nio-8080-exec-205] exceptionLogger - ReimbursmentDAOImpl.update: failed to prepare statement
 [WARN ] 2020-03-26 22:26:10.450 [http-nio-8080-exec-205] exceptionLogger - ReimbursmentCommand: Failed to update requested reimbursment. Body: {"submitter":{"id":22,"username":"fire","password":"****","firstName":null,"lastName":null,"email":"fire","role":{"id":1,"role":"Employee"}},"reimbursment":{"id":167,"amount":198.12,"description":"Planks","submitted":1585270709000,"resolved":null,"author":{"id":22,"username":"fire","password":"$s0$e0801$/GfvjstTzFARBCFnERnSYw==$10jGPCSFqjaDML2wbbqw+CynNEbltA6WRYFlDrFwLEs=","firstName":null,"lastName":null,"email":"fire","role":{"id":1,"role":"Employee"}},"resolver":{"id":0,"username":null,"password":null,"firstName":null,"lastName":null,"email":null,"role":null},"status":{"id":1,"status":"Pending"},"type":{"id":3,"type":"Lodging"}}}
+[ERROR] 2020-03-26 23:24:31.186 [http-nio-8080-exec-244] exceptionLogger - Reimbursment.getBlob: Failed to get result set: 
+java.sql.SQLException: Cannot instantiate a SerialBlob object with a null Blob object
+	at javax.sql.rowset.serial.SerialBlob.<init>(Unknown Source) ~[?:1.8.0_241]
+	at com.revature.expenses.dao.implementations.ReimbursmentDAOImpl.getBlob(ReimbursmentDAOImpl.java:260) [classes/:?]
+	at com.revature.expenses.services.handlers.ReimbursmentHandler.getBlob(ReimbursmentHandler.java:46) [classes/:?]
+	at com.revature.expenses.models.Reimbursment.receiveReceipt(Reimbursment.java:65) [classes/:?]
+	at com.revature.expenses.api.commands.ReimbursmentBlobCommand.process(ReimbursmentBlobCommand.java:48) [classes/:?]
+	at com.revature.expenses.api.FrontController.doGet(FrontController.java:29) [classes/:?]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634) [servlet-api.jar:?]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741) [servlet-api.jar:?]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) [catalina.jar:9.0.31]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.31]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) [tomcat-websocket.jar:9.0.31]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) [catalina.jar:9.0.31]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:9.0.31]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202) [catalina.jar:9.0.31]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96) [catalina.jar:9.0.31]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) [catalina.jar:9.0.31]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139) [catalina.jar:9.0.31]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [catalina.jar:9.0.31]
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:688) [catalina.jar:9.0.31]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [catalina.jar:9.0.31]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343) [catalina.jar:9.0.31]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367) [tomcat-coyote.jar:9.0.31]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-coyote.jar:9.0.31]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868) [tomcat-coyote.jar:9.0.31]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1639) [tomcat-coyote.jar:9.0.31]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-coyote.jar:9.0.31]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) [?:1.8.0_241]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) [?:1.8.0_241]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-util.jar:9.0.31]
+	at java.lang.Thread.run(Unknown Source) [?:1.8.0_241]
+[TRACE] 2020-03-26 23:24:31.337 [http-nio-8080-exec-244] exceptionLogger - ReimbursmentBlobCommand: attempted to retrieve a blob from a receipt that does not exist.
+[WARN ] 2020-03-26 23:24:45.694 [http-nio-8080-exec-236] exceptionLogger - ReimbursmentBlobCommand: attempt to submit blob without a valid reimbursment id.
+[WARN ] 2020-03-26 23:25:22.145 [http-nio-8080-exec-236] exceptionLogger - ReimbursmentBlobCommand: attempt to submit blob without a valid reimbursment id.
+[WARN ] 2020-03-26 23:27:13.966 [http-nio-8080-exec-236] exceptionLogger - ReimbursmentBlobCommand: attempt to submit blob without a valid reimbursment id.
+[WARN ] 2020-03-26 23:27:37.864 [http-nio-8080-exec-246] exceptionLogger - ReimbursmentBlobCommand: attempt to submit blob without a valid reimbursment id.

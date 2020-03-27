@@ -43,8 +43,10 @@ public class ReimbursmentBlobCommand extends FrontCommand{
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}else if(reimbursment.getAuthor() != null || (submitter.getId() == reimbursment.getAuthor().getId())&&(submitter.getRole() != null && submitter.getRole().equals(userRoleHandler.getAdmin()))){
 			if (type.equals("GET")) {//Get blob
+				System.out.println("ReimbursmentBlobCommand: made it to get");
 				if((reimbursment = reimbursmentHandler.get(id))!= null) {
 					try {
+				System.out.println("ReimbursmentBlobCommand: into the try");
 						SerialBlob receipt =  reimbursment.receiveReceipt();
 						if(receipt != null) {
 							for(byte blobPart : receipt.getBytes(1L,(int) receipt.length())) {

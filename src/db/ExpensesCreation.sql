@@ -259,4 +259,4 @@ END;
 --SELECT reimb_id, reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id
 --FROM ADMIN.ERS_REIMBURSEMENT  
 --    OFFSET 5 ROWS FETCH NEXT 10 ROWS ONLY;
-UPDATE ADMIN.ERS_REIMBURSEMENT SET reimb_resolved = CURRENT_TIMESTAMP, reimb_description = 'Death Rays are not expensable', reimb_resolver = 12, reimb_status_id = 2, reimb_type_id = 3 WHERE reimb_id = 165;
+UPDATE ADMIN.ERS_REIMBURSEMENT SET reimb_resolved = CURRENT_TIMESTAMP, reimb_description = 'Death Rays are not expensable', reimb_resolver = 5, reimb_status_id = 2, reimb_type_id = 3 WHERE reimb_id = 165;
