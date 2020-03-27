@@ -19,7 +19,7 @@ public class CORSFilter {
 //		res.addHeader("Access-Control-Allow-Origin","http://localhost:4200");
 		res.setHeader("Access-Control-Allow-Origin","*");
 		res.setHeader("Access-Control-Allow-Methods","GET, OPTIONS, HEAD, PUT, POST");
-		res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
+		res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, reimbursmentid, submitter");
 		if(req.getMethod().equals("OPTIONS")) {
 			res.setStatus(HttpServletResponse.SC_ACCEPTED);
 		}

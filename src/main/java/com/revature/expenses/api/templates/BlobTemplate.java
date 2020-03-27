@@ -1,20 +1,20 @@
 package com.revature.expenses.api.templates;
 
+import java.io.Serializable;
 import java.util.Objects;
-
-import javax.sql.rowset.serial.SerialBlob;
 
 import com.revature.expenses.models.Reimbursment;
 import com.revature.expenses.models.User;
 
-public class BlobTemplate {
+public class BlobTemplate implements Serializable{
+	private static final long serialVersionUID = -6782871020750864991L;
 	private Reimbursment reimbursment;
 	private User submitter;
-	private SerialBlob blob;
+	private String blob;
 	public BlobTemplate() {
 		super();
 	}
-	public BlobTemplate(Reimbursment reimbursment, User submitter, SerialBlob blob) {
+	public BlobTemplate(Reimbursment reimbursment, User submitter, String blob) {
 		super();
 		this.reimbursment = reimbursment;
 		this.submitter = submitter;
@@ -32,10 +32,10 @@ public class BlobTemplate {
 	public void setSubmitter(User submitter) {
 		this.submitter = submitter;
 	}
-	public SerialBlob getBlob() {
+	public String getBlob() {
 		return blob;
 	}
-	public void setBlob(SerialBlob blob) {
+	public void setBlob(String blob) {
 		this.blob = blob;
 	}
 	@Override

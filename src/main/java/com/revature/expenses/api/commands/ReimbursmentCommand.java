@@ -74,9 +74,7 @@ public class ReimbursmentCommand extends FrontCommand {
 			out.println("{\"status\":\"failure\"}");
 			LoggerSingleton.getExceptionLogger().warn("ReimbursmentCommand: Failed to retrieve requested reimbursment for update. Body: " + body);
 		}else if(retrieved.getAuthor().getId() == template.getSubmitter().getId() || template.getSubmitter().getRole().equals(userRoleHandler.getAdmin())) {
-			System.out.println("Made it through authorization");
 			Reimbursment updated = reimbursmentHandler.update(template.getReimbursment());
-			System.out.println(updated);
 			if(updated != null) {
 				res.setStatus(HttpServletResponse.SC_ACCEPTED);
 				out.println(om.writeValueAsString(updated));

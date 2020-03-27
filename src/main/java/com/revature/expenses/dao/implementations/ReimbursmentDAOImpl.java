@@ -23,6 +23,7 @@ import com.revature.expenses.services.handlers.ReimbursmentStatusHandler;
 import com.revature.expenses.services.handlers.ReimbursmentTypeHandler;
 import com.revature.expenses.services.handlers.UserHandler;
 import com.revature.expenses.services.handlers.UserRoleHandler;
+import com.revature.expenses.services.helpers.DateHelper;
 import com.revature.expenses.services.helpers.LoggerSingleton;
 
 public class ReimbursmentDAOImpl implements ReimbursmentDAO {
@@ -330,18 +331,22 @@ public class ReimbursmentDAOImpl implements ReimbursmentDAO {
 				+ "reimb_resolver = ?, reimb_status_id = ?, "
 				+ "reimb_type_id = ? "
 				+ "WHERE reimb_id = ?";
-
-		System.out.println("Made it into update");
 			try(PreparedStatement stmt = conn.prepareStatement(sql)){
-				stmt.setDate(1, reimbursmentToUpdate.getResolved());
+				if(reimbursmentToUpdate.getResolver() != null && reimbursmentToUpdate.getResolver().getId() > 0) {
+					stmt.setDate(1, DateHelper.now());
+				}else {
+					stmt.setNull(1, Types.DATE);
+				}
 				stmt.setString(2, reimbursmentToUpdate.getDescription());
-				stmt.setInt(3, reimbursmentToUpdate.getResolver().getId());
+				if(reimbursmentToUpdate.getResolver().getId() > 0) {
+					stmt.setInt(3, reimbursmentToUpdate.getResolver().getId());
+				}else {
+					stmt.setNull(3,Types.NUMERIC);
+				}
 				stmt.setInt(4, reimbursmentToUpdate.getStatus().getId());
 				stmt.setInt(5, reimbursmentToUpdate.getType().getId());
 				stmt.setInt(6, reimbursmentToUpdate.getId());
-				System.out.println("Made it to result set");
 				int rs = stmt.executeUpdate();
-				System.out.println("RS:" + rs);
 				if (rs > 0) {
 					result = reimbursmentToUpdate;
 				}else {
